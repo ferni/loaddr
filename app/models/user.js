@@ -9,7 +9,8 @@ var userSchema = mongoose.Schema({
     coinbase: {
         access_token: String,
         refresh_token: String
-    }
+    },
+    loaddrs: Array
 });
 
 userSchema.methods.generateHash = function (password) {
