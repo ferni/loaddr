@@ -1,0 +1,14 @@
+.qr-code {
+    padding: 5px;
+    background-color: white;
+    width: 160px;
+}
+
+.loaddr-type {
+    width: 160px;
+}
+
+.address-container {
+    display: inline;
+    width: 400px;
+}

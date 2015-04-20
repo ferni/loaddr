@@ -3,11 +3,14 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <script src="js/simpletabs_1.3.js"></script>
+    <link rel="stylesheet" href="css/simpletabs.css" />
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 <div>
     <h2>loaddrs</h2>
-    <div class="loader-address-container">
+    <div class="loaddr">
         <div class="address">
 
         </div>
@@ -20,6 +23,26 @@
         <div class="settings">
 
         </div>
+    </div>
+
+    <div class="simpleTabs">
+        <ul class="simpleTabsNavigation">
+            <li><a href="#">Address</a></li>
+            <li><a href="#">Logs</a></li>
+            <li><a href="#">Balance</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+        <div class="simpleTabsContent">
+            <img class="loaddr-type" src="img/bank-loaddr.png"/>
+            <div class="address-container">
+                <span class="address">1MkGe776hjWhcgj5DxobF5tnG3C7fWpEHc</span>
+                <button>Copy to clipboard</button>
+            </div>
+            <img class="qr-code" src="img/qrcode1.png"/>
+        </div>
+        <div class="simpleTabsContent">Content here to be called when "Tab 2" is clicked.</div>
+        <div class="simpleTabsContent">Content here to be called when "Tab 3" is clicked.</div>
+        <div class="simpleTabsContent">Content here to be called when "Tab 3" is clicked.</div>
     </div>
 </div>
 </body>
