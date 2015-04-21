@@ -5,6 +5,6 @@
 // config/database.js
 module.exports = {
 
-    'url' : 'mongodb://ferni:asdf@proximus.modulusmongo.net:27017/Xym9osuq' // looks like mongodb://<user>:<pass>@mongo.onmodulus.net:27017/Mikha4ot
+    'url' : process.env.MONGOLAB_URI // looks like mongodb://<user>:<pass>@mongo.onmodulus.net:27017/Mikha4ot
 
 };
