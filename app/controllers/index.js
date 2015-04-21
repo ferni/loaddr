@@ -1,4 +1,5 @@
-var request = require('request');
+var request = require('request'),
+    mongoose = require('mongoose');
 
 function handleCoinbase(code) {
     console.log('Posting to coinbase')
@@ -15,12 +16,24 @@ function handleCoinbase(code) {
     });
 }
 
-module.exports = function(req, res) {
+function renderApp(req, res, next) {
+    mongoose.model('Loaddr').find(function (err, loaddrs) {
+        if (err) return next(err);
+        //los loaddrs del usuario
+        return res.render('app', {
+            loaddrs: loaddrs
+        });
+    });
+}
 
-    var balance;
-    console.log('req.query.code: ' + req.query.code);
+module.exports = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        return renderApp(req, res, next);
+    }
+    //render home
+    /*console.log('req.query.code: ' + req.query.code);
     if (req.query.code) {
         balance = handleCoinbase(req.query.code);
-    }
-    res.render('index', {balance: balance});
+    }*/
+    res.render('index');
 };

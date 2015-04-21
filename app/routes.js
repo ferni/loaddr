@@ -32,6 +32,27 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+    app.get('/create-loaddr', isLoggedIn, function(req, res) {
+        //todo: see query string for loaddr type
+        res.render('new-bank-loaddr');
+    });
+
+    app.post('/create-loaddr', isLoggedIn, function(req, res, next) {
+        var mongoose = require('mongoose');
+        var Loaddr = mongoose.model('Loaddr');
+        var loaddr = new Loaddr({
+            address: '1wxaASdfereqweasdfADDRESS',
+            isBank: true
+        });
+        loaddr.save(function(err, newLoaddr) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/');
+        });
+
+    });
 };
 
 function isLoggedIn(req, res, next) {

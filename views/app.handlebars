@@ -1,0 +1,19 @@
+<h2>loaddrs</h2>
+<div>
+    <h3>Create new</h3>
+    <ul>
+        <li><a href="/create-loaddr" id="new-bank-loaddr">Bank loaddr</a></li>
+        <li><button id="new-phone-loaddr">Phone loaddr</button></li>
+    </ul>
+</div>
+<div>
+    {{#each loaddrs}}
+        ADRESSS!: {{address}} </br>
+        {{#if isBank}}
+            {{> bank-loaddr }}
+        {{/if}}
+        {{#if isPhone}}
+            {{> phone-loaddr }}
+        {{/if}}
+    {{/each}}
+</div>

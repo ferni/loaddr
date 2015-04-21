@@ -4,12 +4,10 @@ var mongoose = require('mongoose'),
 
 Promise.promisifyAll(coinbase);
 
-var CoinbaseLoaddr = mongoose.Schema({
-
+var Loaddr = mongoose.Schema({
+    isBank: Boolean,
+    isPhone: Boolean,
+    address: String
 });
 
-CoinbaseLoaddr.methods.hasBank = function () {
-
-};
-
-exports.coinbase = mongoose.model('Loaddr', CoinbaseLoaddr);
+module.exports = mongoose.model('Loaddr', Loaddr);
