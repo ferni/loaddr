@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
 Promise.promisifyAll(coinbase);
 
 var Loaddr = mongoose.Schema({
+    _creator : { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isBank: Boolean,
     isPhone: Boolean,
     address: String

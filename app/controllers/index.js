@@ -17,7 +17,7 @@ function handleCoinbase(code) {
 }
 
 function renderApp(req, res, next) {
-    mongoose.model('Loaddr').find(function (err, loaddrs) {
+    mongoose.model('Loaddr').find({_creator: req.user._id}, function (err, loaddrs) {
         if (err) return next(err);
         //los loaddrs del usuario
         return res.render('app', {

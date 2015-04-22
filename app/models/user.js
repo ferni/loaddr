@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
         access_token: String,
         refresh_token: String
     },
-    loaddrs: Array
+    loaddrs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Loaddr' }]
 });
 
 userSchema.methods.generateHash = function (password) {
