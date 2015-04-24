@@ -43,7 +43,7 @@ module.exports = function(app, passport) {
         var Loaddr = mongoose.model('Loaddr');
         var loaddr = new Loaddr({
             _creator: req.user._id,
-            address: '1wxaASd_' + req.user.email,
+            address: '1wxaASd_' + req.user.local.email,
             isBank: true
         });
         loaddr.save(function(err, newLoaddr) {
