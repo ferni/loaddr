@@ -1,7 +1,16 @@
 var wallet = require('./wallet'),
-    loaddrs = require('./loaddrs'),
     loaddrModel = require('./models/loaddr'),
     CoinBag = require('./coin-bag');
+
+function getLoaddrFunctions(type) {
+    var loaddr;
+    try {
+        loaddr = require('./loaddrs/' + type);
+    } catch (e) {
+        throw 'Loaddr "' + type + '" not defined in /app/loaddrs';
+    }
+    return loaddr;
+}
 
 function onAddressReceives(address, amount) {
     console.log('Received ' + amount + ' on ' + address);
@@ -16,9 +25,9 @@ function onAddressReceives(address, amount) {
             return;
         }
         var loaddr = docs[0];
-        var loaddrHandler = loaddrs.fromModel(loaddr);
+        var loaddrHandler = getLoaddrFunctions(loaddr.type);
         var coinBag = new CoinBag(amount, loaddr);
-        loaddrHandler.onIncoming(coinBag);
+        loaddrHandler.onIncoming(coinBag, loaddr);
     })
 }
 

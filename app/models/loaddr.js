@@ -11,4 +11,8 @@ var Loaddr = mongoose.Schema({
     settings: Object
 });
 
+Loaddr.methods.log = function(msg) {
+    console.log('Loaddr log: ' + msg);
+};
+
 module.exports = mongoose.model('Loaddr', Loaddr);

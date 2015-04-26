@@ -27,6 +27,19 @@ loaddrs.Redirect.prototype.onIncoming = function(coinBag) {
         self.log('Sent funds');
     });
 };
+loaddrs.Redirect.prototype.saveSettings = function(settings, cb) {
+    //todo: validate
+    this.model.settings = settings;
+    this.model.save(function(err) {
+        if (err) throw err;
+        cb(null);
+    });
+};
+loaddrs.Redirect.prototype.createForm = function() {
+    'Destination <input name="destinationAddress" type="text" />';
+};
+loaddrs.Redirect.prototype.settingsForm = loaddrs.Redirect.prototype.createForm;
+
 util.inherits(loaddrs.Redirect, Loaddr);
 
 function fromModel(model) {
