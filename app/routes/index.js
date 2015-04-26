@@ -1,6 +1,7 @@
 
 module.exports = function(app, passport) {
-    app.get('/', require('./controllers/index'));
+    require('./routes/home')(app);
+    require('./routes/create-loaddr')(app);
 
     app.get('/login', function(req, res) {
         res.render('login', { message: req.flash('loginMessage') });
@@ -33,32 +34,4 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
-    app.get('/create-loaddr', isLoggedIn, function(req, res) {
-        //todo: see query string for loaddr type
-        res.render('new-bank-loaddr');
-    });
-
-    app.post('/create-loaddr', isLoggedIn, function(req, res, next) {
-        var mongoose = require('mongoose');
-        var Loaddr = mongoose.model('Loaddr');
-        var loaddr = new Loaddr({
-            _creator: req.user._id,
-            address: '1wxaASd_' + req.user.local.email,
-            isBank: true
-        });
-        loaddr.save(function(err, newLoaddr) {
-            if (err) {
-                return next(err);
-            }
-            res.redirect('/');
-        });
-
-    });
 };
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/');
-}

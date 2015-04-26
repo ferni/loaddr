@@ -6,9 +6,9 @@ Promise.promisifyAll(coinbase);
 
 var Loaddr = mongoose.Schema({
     _creator : { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    isBank: Boolean,
-    isPhone: Boolean,
-    address: String
+    type: String,
+    address: String,
+    options: Object
 });
 
 module.exports = mongoose.model('Loaddr', Loaddr);
