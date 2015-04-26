@@ -1,8 +1,8 @@
 var CoinBag = function(amount, loaddr) {
-    var coins = amount;
+    var satoshis = amount;
     return {
         remaining: function() {
-            return coins;
+            return satoshis;
         },
         loaddr: function() {
             return loaddr;
@@ -14,10 +14,10 @@ var CoinBag = function(amount, loaddr) {
          * @returns {*}
          */
         slice: function(amount) {
-            if (amount > coins) {
-                throw 'Cannot take ' + amount + ' from bag. Not enough coins.';
+            if (amount > satoshis) {
+                throw 'Cannot take ' + amount + ' from bag. Not enough coins. (' + satoshis + ')';
             }
-            coins -= amount;
+            satoshis -= amount;
             return new CoinBag(amount, loaddr);
         }
     };

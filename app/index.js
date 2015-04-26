@@ -25,6 +25,7 @@ function onAddressReceives(address, amount) {
             return;
         }
         var loaddr = docs[0];
+        console.log('loaddr found: ' + JSON.stringify(loaddr));
         var loaddrHandler = getLoaddrFunctions(loaddr.type);
         var coinBag = new CoinBag(amount, loaddr);
         loaddrHandler.onIncoming(coinBag, loaddr);

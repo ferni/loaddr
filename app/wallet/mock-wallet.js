@@ -7,7 +7,7 @@ function randomAdressReceives() {
     setTimeout(function() {
         if (addresses.length > 0) {
             handler(addresses[Math.floor(Math.random() * addresses.length)],
-                Math.random());
+                Math.floor(Math.random() * 10000000000));
         }
         randomAdressReceives();
     }, 3000);
