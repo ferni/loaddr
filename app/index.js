@@ -11,6 +11,10 @@ function onAddressReceives(address, amount) {
         if (docs.length > 1) {
             throw 'There\'s more than a loaddr with the same address';
         }
+        if (docs.length === 0) {
+            console.warn('Theres an address without loaddr assigned: ' + address);
+            return;
+        }
         var loaddr = docs[0];
         var loaddrHandler = loaddrs.fromModel(loaddr);
         var coinBag = new CoinBag(amount, loaddr);

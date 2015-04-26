@@ -1,22 +1,22 @@
 var CoinBag = require('../coin-bag');
 
 var addresses = [],
-    subscriber;
+    handler;
 
 function randomAdressReceives() {
     setTimeout(function() {
         if (addresses.length > 0) {
-            subscriber.received(addresses[Math.floor(Math.random() * addresses.length)],
+            handler(addresses[Math.floor(Math.random() * addresses.length)],
                 Math.random());
         }
         randomAdressReceives();
-    }, Math.random() * 8000);
+    }, 3000);
 }
 
 module.exports = {
     init: function(subs) {
        //start tracking addresses
-        subscriber = subs;
+        handler = subs;
         randomAdressReceives();
     },
     /**
@@ -31,7 +31,7 @@ module.exports = {
         }, 2000);
     },
     getNewAddress: function() {
-        var address = require('crypto').randomBytesSync(48).toString('hex');
+        var address = 'asdf' + Math.floor(Math.random() * 1000);
         addresses.push(address);
         return address;
     }

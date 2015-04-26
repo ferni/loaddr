@@ -1,7 +1,8 @@
+var isLoggedIn = require('./is-logged-in');
 
 module.exports = function(app, passport) {
-    require('./routes/home')(app);
-    require('./routes/create-loaddr')(app);
+    require('./home')(app);
+    require('./create-loaddr')(app);
 
     app.get('/login', function(req, res) {
         res.render('login', { message: req.flash('loginMessage') });

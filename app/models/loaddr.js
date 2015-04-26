@@ -8,7 +8,7 @@ var Loaddr = mongoose.Schema({
     _creator : { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     type: String,
     address: String,
-    options: Object
+    settings: Object
 });
 
 module.exports = mongoose.model('Loaddr', Loaddr);

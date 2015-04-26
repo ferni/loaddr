@@ -1,5 +1,5 @@
 var isLoggedIn = require('./is-logged-in');
-var wallet = require('./wallet');
+var wallet = require('../wallet');
 
 module.exports = function(app) {
     app.get('/create-loaddr', isLoggedIn, function(req, res) {
@@ -12,8 +12,7 @@ module.exports = function(app) {
         var Loaddr = mongoose.model('Loaddr');
         var loaddr = new Loaddr({
             _creator: req.user._id,
-            address: wallet.getNewAddress(),
-            isBank: true
+            address: wallet.getNewAddress()
         });
         loaddr.save(function(err, newLoaddr) {
             if (err) {

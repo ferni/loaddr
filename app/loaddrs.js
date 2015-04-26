@@ -4,7 +4,7 @@ function Loaddr(model) {
     this.model = model;
     this.creator = model.creator;
     this.address = model.address;
-    this.options = model.options;
+    this.settings = model.settings;
 }
 Loaddr.prototype.log = function(msg) {
   console.log('Loaddr:' + msg);
@@ -19,7 +19,7 @@ loaddrs.Redirect.prototype.onIncoming = function(coinBag) {
         return;
     }
     wallet.send({
-        address: this.options.destinationAddress,
+        address: this.settings.destinationAddress,
         amountBag: coinBag.slice(coinBag.remaining() - 0.0001) ,
         feesBag: coinBag.slice(0.0001)
     }, function(err) {
@@ -30,7 +30,10 @@ loaddrs.Redirect.prototype.onIncoming = function(coinBag) {
 util.inherits(loaddrs.Redirect, Loaddr);
 
 function fromModel(model) {
+    if (!loaddrs[model.type]) {
+        throw 'There\'s no loaddr of type "' + model.type + '" defined';
+    }
     return new loaddrs[model.type](model);
 }
 
-exports.fromModel = fromModel();
+exports.fromModel = fromModel;
