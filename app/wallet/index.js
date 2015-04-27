@@ -1,1 +1,7 @@
-module.exports = require('./mock-wallet');
+var wallet = require('./mock-wallet');
+
+
+
+//wrap send
+
+module.exports = wallet;

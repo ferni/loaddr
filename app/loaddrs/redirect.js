@@ -1,16 +1,11 @@
 var wallet = require('../wallet');
 
 module.exports = {
-    onIncoming: function (coinBag, model) {
-        console.log('calling "onIncoming" with coinbag with ' + coinBag.remaining() + ' coins.');
-        if (coinBag.remaining() <= 100000) {
-            console.warn('Coins received on ' + model.address + ' <= 0.0001 (' + coinBag.remaining() + ')');
-            return;
-        }
+    onIncoming: function (amount, incomingID, model) {
         wallet.send({
             address: model.settings.destinationAddress,
-            amountBag: coinBag.slice(coinBag.remaining() - 100000),
-            feesBag: coinBag.slice(100000)
+            amount: amount,
+            incomingID: incomingID
         }, function (err) {
             if (err) throw err;
             model.log('Sent funds');

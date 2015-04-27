@@ -1,6 +1,5 @@
 var wallet = require('./wallet'),
-    loaddrModel = require('./models/loaddr'),
-    CoinBag = require('./coin-bag');
+    loaddrModel = require('./models/loaddr');
 
 function getLoaddrFunctions(type) {
     var loaddr;
@@ -12,7 +11,7 @@ function getLoaddrFunctions(type) {
     return loaddr;
 }
 
-function onAddressReceives(address, amount) {
+function onAddressReceives(address, amount, incomingID) {
     console.log('Received ' + amount + ' on ' + address);
     //get corresponding loaddr
     loaddrModel.find({address: address}, function (err, docs) {
@@ -27,8 +26,7 @@ function onAddressReceives(address, amount) {
         var loaddr = docs[0];
         console.log('loaddr found: ' + JSON.stringify(loaddr));
         var loaddrHandler = getLoaddrFunctions(loaddr.type);
-        var coinBag = new CoinBag(amount, loaddr);
-        loaddrHandler.onIncoming(coinBag, loaddr);
+        loaddrHandler.onIncoming(amount, incomingID, loaddr);
     })
 }
 
