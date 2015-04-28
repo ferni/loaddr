@@ -3,6 +3,7 @@
   "main": "server.js",
   "dependencies": {
     "bcrypt-nodejs": "latest",
+    "bitcore": "^0.11.7",
     "bluebird": "^2.9.24",
     "body-parser": "~1.0.0",
     "coinbase": "^1.0.2",
