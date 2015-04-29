@@ -35,4 +35,7 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
+    app.post('/chain', function(req, res) {
+        res.json({});
+    });
 };
