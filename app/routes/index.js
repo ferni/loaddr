@@ -34,8 +34,4 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
-
-    app.post('/chain', function(req, res) {
-        res.json({});
-    });
 };

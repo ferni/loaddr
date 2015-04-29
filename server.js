@@ -47,7 +47,7 @@ require('./app/routes')(app, passport); // load our routes and pass in our app a
 require('./app/models/user');
 require('./app/models/loaddr');
 
-require('./app').init();
+require('./app').init(app);
 
 // launch ======================================================================
 app.listen(port);

@@ -1,6 +1,7 @@
 var uuid = require('node-uuid'),
     _ = require('lodash'),
-    bitcore = require('bitcore');
+    hd = require('./hd'),
+    chain = require('./chain');
 
 var addresses = [],
     incomings = [],
@@ -43,10 +44,22 @@ function randomAdressReceives() {
     }, 3000);
 }
 
+function receivedHandlerMiddleware(incoming) {
+    var incoming = {
+        id: uuid.v4(),
+        address: addresses[Math.floor(Math.random() * addresses.length)],
+        amount: Math.floor(Math.random() * 10000000000)
+    };
+    incomings.push(incoming);
+    handler(incoming.address, incoming.amount, incoming.id);
+}
+
 module.exports = {
-    init: function(subs, addresses) {
+    init: function(app, addresses, onReceivedHandler) {
         //start tracking addresses
-        handler = subs;
+        handler = onReceivedHandler;
+        chain.init(app, addresses, receivedHandlerMiddleware);
+
         randomAdressReceives();
     },
     /**
@@ -68,7 +81,7 @@ module.exports = {
 
     },
     getNewAddress: function() {
-        var address = ;
+        var address = 'asdf';
         addresses.push(address);
         return address;
     }

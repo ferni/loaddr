@@ -1,7 +1,1 @@
-var wallet = require('./mock-wallet');
-
-
-
-//wrap send
-
-module.exports = wallet;
+module.exports = require('./chain-bitcore-wallet');

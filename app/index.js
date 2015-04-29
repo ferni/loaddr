@@ -30,10 +30,8 @@ function onAddressReceives(address, amount, incomingID) {
     })
 }
 
-exports.init = function() {
-    //todo: add index to address
+exports.init = function(app) {
     loaddrModel.find({}, 'address', function(err, addresses) {
-        console.log(JSON.stringify(addresses));
+        wallet.init(app, addresses, onAddressReceives);
     });
-    wallet.init(onAddressReceives);
 };
