@@ -10,7 +10,7 @@
     "coinbase": "^1.0.2",
     "connect-flash": "~0.1.1",
     "cookie-parser": "~1.0.0",
-    "express": "~4.0.0",
+    "express": "~4.11.1",
     "express-handlebars": "^2.0.0",
     "express-session": "~1.0.0",
     "lodash": "^3.7.0",
