@@ -33,7 +33,6 @@ module.exports = function(app) {
         var Loaddr = mongoose.model('Loaddr');
         var loaddr = new Loaddr({
             _creator: req.user._id,
-            address: wallet.getNewAddress(),
             type: loaddrType,
             settings: settings
         });
@@ -41,7 +40,11 @@ module.exports = function(app) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/');
+            newLoaddr.address = wallet.getAddress(newLoaddr._id);
+            newLoaddr.save(function(err) {
+                if(err) return next(err);
+                res.redirect('/');
+            })
         });
     });
 };

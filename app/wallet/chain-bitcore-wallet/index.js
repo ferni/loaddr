@@ -1,17 +1,9 @@
-var uuid = require('node-uuid'),
-    _ = require('lodash'),
+var _ = require('lodash'),
     hd = require('./hd'),
-    chain = require('./chain');
+    chainWrapper = require('./chain-wrapper');
 
-var addresses = [],
-    incomings = [],
+var incomings = [],
     handler;
-
-function getTotalIncoming() {
-    return _.reduce(incomings, function(total, incoming) {
-        return total + incoming.amount;
-    });
-}
 
 function substractFromPending(amount, incomingID) {
     var incoming = _.find(incomings, {id: incomingID});
@@ -29,27 +21,7 @@ function substractFromPending(amount, incomingID) {
     }
 }
 
-function randomAdressReceives() {
-    setTimeout(function() {
-        if (addresses.length > 0) {
-            var incoming = {
-                id: uuid.v4(),
-                address: addresses[Math.floor(Math.random() * addresses.length)],
-                amount: Math.floor(Math.random() * 10000000000)
-            };
-            incomings.push(incoming);
-            handler(incoming.address, incoming.amount, incoming.id);
-        }
-        randomAdressReceives();
-    }, 3000);
-}
-
 function receivedHandlerMiddleware(incoming) {
-    var incoming = {
-        id: uuid.v4(),
-        address: addresses[Math.floor(Math.random() * addresses.length)],
-        amount: Math.floor(Math.random() * 10000000000)
-    };
     incomings.push(incoming);
     handler(incoming.address, incoming.amount, incoming.id);
 }
@@ -58,13 +30,11 @@ module.exports = {
     init: function(app, addresses, onReceivedHandler) {
         //start tracking addresses
         handler = onReceivedHandler;
-        chain.init(app, addresses, receivedHandlerMiddleware);
-
-        randomAdressReceives();
+        return chainWrapper.init(app, addresses, receivedHandlerMiddleware);
     },
     /**
      * Sends funds to a bitcoin address.
-     * @param params {{address:string,amount:int,incomingID:string}}
+     * @param params {{address:string,amount:int,incomingID:string,loaddr:Object}}
      * @param cb Function callback.
      */
     send: function(params, cb) {
@@ -76,14 +46,24 @@ module.exports = {
         } catch (e) {
             return cb(new Error(e));
         }
-
-        console.log("Sending " + params.address);
-
+        var privateKey = hd.getPrivateKey(params.loaddr._id);
+        chainWrapper.chain.transactAsync({
+            inputs: [{
+                address: params.loaddr.address,
+                private_key: privateKey
+            }],
+            outputs: [{
+                address: params.address,
+                amount: params.amount
+            }]
+        }).then(function(){
+            cb(null);
+        }).catch(function(e) {
+            cb(e);
+        });
     },
-    getNewAddress: function() {
-        var address = 'asdf';
-        addresses.push(address);
-        return address;
+    getAddress: function(index) {
+        return hd.getAddress(index);
     }
 };
 

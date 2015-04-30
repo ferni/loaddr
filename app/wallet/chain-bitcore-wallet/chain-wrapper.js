@@ -31,16 +31,26 @@ Promise.promisifyAll(Object.getPrototypeOf(chain));
 
  */
 
+function handleNotification(onReceivedHandler) {
+    return function(req, res) {
+        var payload = req.body.payload;
+        console.log('New Chain notification: ' + JSON.stringify(req));
+        //todo: check that the message is from chain
+        if (payload.type === 'address' && payload.received > 0 && payload.confirmations == 0) {
+            console.log('Received ' + payload.received + ' on ' + payload.address);
+            onReceivedHandler({
+                id: payload.transaction_hash,
+                address: payload.address,
+                amount: payload.received
+            });
+        }
+        res.json({});
+    };
+}
+
 var api = {
     init: function(app, addresses, onReceivedHandler) {
-        app.post('/chain', function(req, res) {
-            var payload = req.body.payload;
-            console.log('New Chain notification: ' + JSON.stringify(req.body));
-            if(payload.type === 'address' && payload.received > 0) {
-                console.log('Received ' + payload.received + ' on ' + payload.address);
-            }
-            res.json({});
-        });
+        app.post('/chain', handleNotification(onReceivedHandler));
 
         //check the tracked addresses
         return chain.listNotificationsAsync().then(function(notif) {
@@ -61,6 +71,7 @@ var api = {
             address: address,
             url: "https://loaddr.herokuapp.com/chain"
         });
-    }
+    },
+    chain: chain
 };
 module.exports = api;

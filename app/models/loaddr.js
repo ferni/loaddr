@@ -1,18 +1,19 @@
 var mongoose = require('mongoose'),
     coinbase = require('coinbase'),
-    Promise = require('bluebird');
-
+    Promise = require('bluebird'),
+    autoIncrement = require('mongoose-auto-increment');
 Promise.promisifyAll(coinbase);
 
-var Loaddr = mongoose.Schema({
+var loaddrSchema = mongoose.Schema({
     _creator : { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     type: String,
     address: String,
+    index: {type: Number},
     settings: Object
 });
 
-Loaddr.methods.log = function(msg) {
+loaddrSchema.methods.log = function(msg) {
     console.log('Loaddr log: ' + msg);
 };
-
-module.exports = mongoose.model('Loaddr', Loaddr);
+//loaddrSchema.plugin(autoIncrement.plugin, 'Loaddr');
+module.exports = mongoose.model('Loaddr', loaddrSchema);

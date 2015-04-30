@@ -19,10 +19,10 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
 var configDB = require('./config/database.js');
-
+var autoIncrement = require('mongoose-auto-increment');
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
-
+var connection = mongoose.connect(configDB.url); // connect to our database
+//autoIncrement.initialize(connection);
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
