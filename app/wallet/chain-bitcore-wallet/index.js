@@ -63,7 +63,10 @@ module.exports = {
         });
     },
     getAddress: function(index) {
-        return hd.getAddress(index);
+        var address = hd.getAddress(index);
+        return chainWrapper.trackNew(address).then(function() {
+            return address;
+        });
     }
 };
 

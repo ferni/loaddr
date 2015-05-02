@@ -61,7 +61,9 @@ var api = {
         }).then(function(tracked) {
             //track addresses not already tracked
             var track = _.difference(addresses, tracked);
-            //todo: track all with join or something
+            return Promise.all(_.map(track, function(addressToTrack) {
+               return api.trackNew(addressToTrack);
+            }));
         });
     },
     trackNew: function(address) {
@@ -70,6 +72,8 @@ var api = {
             block_chain: "bitcoin",
             address: address,
             url: "https://loaddr.herokuapp.com/chain"
+        }).then(function() {
+            console.log('Chain tracking address ' + address);
         });
     },
     chain: chain

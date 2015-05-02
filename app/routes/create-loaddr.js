@@ -41,11 +41,15 @@ module.exports = function(app) {
             if (err) {
                 return next(err);
             }
-            newLoaddr.address = wallet.getAddress(newLoaddr._id);
-            newLoaddr.save(function(err) {
-                if(err) return next(err);
-                res.redirect('/');
-            })
+            wallet.getAddress(newLoaddr._id).then(function(address) {
+                newLoaddr.address = address;
+                newLoaddr.save(function(err) {
+                    if(err) return next(err);
+                    res.redirect('/');
+                })
+            }).catch(function(e) {
+                next(new Error(e));
+            });
         });
     });
 };
