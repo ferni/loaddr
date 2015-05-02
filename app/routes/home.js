@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+var db = require('../db').db;
 
 function renderApp(req, res, next) {
-    mongoose.model('Loaddr').find({_creator: req.user._id}, function (err, loaddrs) {
+    db.model('Loaddr').find({_creator: req.user._id}, function (err, loaddrs) {
         if (err) return next(err);
         //los loaddrs del usuario
         return res.render('app', {

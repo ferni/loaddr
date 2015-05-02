@@ -1,5 +1,6 @@
 var isLoggedIn = require('./is-logged-in');
 var wallet = require('../wallet');
+var db = require('../db').db;
 
 function getLoaddrFunctions(type) {
     var loaddr;
@@ -30,7 +31,7 @@ module.exports = function(app) {
             next(new Error('Invalid settings'));
         }
         var mongoose = require('mongoose');
-        var Loaddr = mongoose.model('Loaddr');
+        var Loaddr = db.model('Loaddr');
         var loaddr = new Loaddr({
             _creator: req.user._id,
             type: loaddrType,

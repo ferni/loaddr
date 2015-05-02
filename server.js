@@ -22,7 +22,8 @@ var configDB = require('./config/database.js');
 var autoIncrement = require('mongoose-auto-increment');
 // configuration ===============================================================
 var connection = mongoose.connect(configDB.url); // connect to our database
-//autoIncrement.initialize(connection);
+autoIncrement.initialize(connection);
+require('./app/db').init(connection);
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application

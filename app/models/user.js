@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var db = require('../db').db;
 
 var userSchema = mongoose.Schema({
     local: {
@@ -25,4 +26,4 @@ userSchema.methods.hasConnectedCoinbase = function() {
     return this.coinbase.access_token;
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = db.model('User', userSchema);

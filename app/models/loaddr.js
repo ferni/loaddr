@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     coinbase = require('coinbase'),
     Promise = require('bluebird'),
+    db = require('../db').db,
     autoIncrement = require('mongoose-auto-increment');
 Promise.promisifyAll(coinbase);
 
@@ -15,5 +16,5 @@ var loaddrSchema = mongoose.Schema({
 loaddrSchema.methods.log = function(msg) {
     console.log('Loaddr log: ' + msg);
 };
-//loaddrSchema.plugin(autoIncrement.plugin, 'Loaddr');
-module.exports = mongoose.model('Loaddr', loaddrSchema);
+loaddrSchema.plugin(autoIncrement.plugin, 'Loaddr');
+module.exports = db.model('Loaddr', loaddrSchema);
