@@ -4,10 +4,13 @@ var db = require('../db').db;
 var loaddrs = require('../loaddrs');
 
 module.exports = function(app) {
-    app.get('/create-loaddr', isLoggedIn, function(req, res) {
-        //todo: see query string for loaddr type
-        var loaddrType = 'redirect';
-        var loaddrPrototype = loaddrs.getPrototype(loaddrType);
+    app.get('/create-loaddr', isLoggedIn, function(req, res, next) {
+        var loaddrType = req.query.type;
+        try {
+            var loaddrPrototype = loaddrs.getPrototype(loaddrType);
+        } catch(e) {
+            return next(new Error(e));
+        }
         res.render('create-loaddr', {
             form: loaddrPrototype.createForm()
         });

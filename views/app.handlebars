@@ -5,14 +5,13 @@
 <div>
     <h3>Create new</h3>
     <ul>
-        <li><a href="/create-loaddr" id="new-bank-loaddr">Bank loaddr</a></li>
-        <li><button id="new-phone-loaddr">Phone loaddr</button></li>
+        <li><a href="/create-loaddr?type=redirect">Redirect loaddr</a></li>
     </ul>
 </div>
 <div>
     <h3>Save these addresses to your wallet</h3>
     {{#each loaddrs}}
-        {{> bank-loaddr }}
+        {{> loaddr }}
     {{/each}}
 </div>
 
