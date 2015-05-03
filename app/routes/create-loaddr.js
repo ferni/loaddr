@@ -1,24 +1,15 @@
 var isLoggedIn = require('./is-logged-in');
 var wallet = require('../wallet');
 var db = require('../db').db;
-
-function getLoaddrFunctions(type) {
-    var loaddr;
-    try {
-        loaddr = require('../loaddrs/' + type);
-    } catch (e) {
-        throw 'Loaddr "' + type + '" not defined in /app/loaddrs';
-    }
-    return loaddr;
-}
+var loaddrs = require('../loaddrs');
 
 module.exports = function(app) {
     app.get('/create-loaddr', isLoggedIn, function(req, res) {
         //todo: see query string for loaddr type
         var loaddrType = 'redirect';
-        var loaddrFunctions = getLoaddrFunctions(loaddrType);
+        var loaddrPrototype = loaddrs.getPrototype(loaddrType);
         res.render('create-loaddr', {
-            form: loaddrFunctions.createForm()
+            form: loaddrPrototype.createForm()
         });
     });
 
@@ -30,7 +21,6 @@ module.exports = function(app) {
         if (!loaddrFunctions.validateSettings(settings)) {
             next(new Error('Invalid settings'));
         }
-        var mongoose = require('mongoose');
         var Loaddr = db.model('Loaddr');
         var loaddr = new Loaddr({
             _creator: req.user._id,
