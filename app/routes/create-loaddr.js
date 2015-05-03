@@ -20,8 +20,8 @@ module.exports = function(app) {
         var loaddrType = 'redirect';
         var settings = req.body;
         console.log('settings:' + JSON.stringify(settings));
-        var loaddrFunctions = getLoaddrFunctions(loaddrType);
-        if (!loaddrFunctions.validateSettings(settings)) {
+        var proto = loaddrs.getPrototype(loaddrType);
+        if (!proto.validateSettings(settings)) {
             next(new Error('Invalid settings'));
         }
         var Loaddr = db.model('Loaddr');

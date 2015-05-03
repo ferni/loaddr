@@ -1,9 +1,10 @@
-var db = require('../db').db;
+var db = require('../db').db,
+    _ = require('lodash');
 
 function renderApp(req, res, next) {
     db.model('Loaddr').find({_creator: req.user._id}, function (err, loaddrs) {
         if (err) return next(err);
-        //los loaddrs del usuario
+        _.invoke(loaddrs, 'loadPrototype');
         return res.render('app', {
             loaddrs: loaddrs
         });

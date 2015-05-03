@@ -1,16 +1,6 @@
 var wallet = require('./wallet'),
     loaddrModel = require('./models/loaddr');
 
-function getLoaddrFunctions(type) {
-    var loaddr;
-    try {
-        loaddr = require('./loaddrs/' + type);
-    } catch (e) {
-        throw 'Loaddr "' + type + '" not defined in /app/loaddrs';
-    }
-    return loaddr;
-}
-
 function onAddressReceives(address, amount, incomingID) {
     console.log('Received ' + amount + ' on ' + address);
     //get corresponding loaddr
@@ -25,8 +15,8 @@ function onAddressReceives(address, amount, incomingID) {
         }
         var loaddr = docs[0];
         console.log('loaddr found: ' + JSON.stringify(loaddr));
-        var loaddrHandler = getLoaddrFunctions(loaddr.type);
-        loaddrHandler.onIncoming(amount, incomingID, loaddr);
+        loaddr.loadPrototype();
+        loaddr.onIncoming(amount, incomingID, loaddr);
     })
 }
 
