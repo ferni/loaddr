@@ -20,7 +20,9 @@ var session      = require('express-session');
 
 var configDB = require('./config/database.js');
 var autoIncrement = require('mongoose-auto-increment');
+var Promise = require('bluebird');
 // configuration ===============================================================
+Promise.promisifyAll(mongoose);
 var connection = mongoose.connect(configDB.url); // connect to our database
 autoIncrement.initialize(connection);
 require('./app/db').init(connection);

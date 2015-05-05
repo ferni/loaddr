@@ -30,10 +30,7 @@ module.exports = function(app) {
             type: loaddrType,
             settings: settings
         });
-        loaddr.save(function(err, newLoaddr) {
-            if (err) {
-                return next(err);
-            }
+        loaddr.saveAsync().spread(function(newLoaddr) {
             wallet.getAddress(newLoaddr._id).then(function(address) {
                 newLoaddr.address = address;
                 newLoaddr.save(function(err) {
@@ -44,6 +41,8 @@ module.exports = function(app) {
                 newLoaddr.remove().exec();
                 next(e);
             });
+        }).catch(function(e) {
+            next(e);
         });
     });
 };
