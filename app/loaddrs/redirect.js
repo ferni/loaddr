@@ -19,7 +19,7 @@ module.exports = {
         return 'Destination <input name="destinationAddress" type="text" />';
     },
     settingsForm: function(settings) {
-        return 'Destination <input name="destinationAddress" type="text" value="'
-            + settings.destinationAddress + '"/>';
+        //TODO: Make the settings editable (ajax)
+        return 'Destination: <strong>' + settings.destinationAddress+ '</strong>';
     }
 };
