@@ -43,6 +43,7 @@ module.exports = {
         }
         substractFromPending(params.amount, params.incomingID);
         var privateKey = hd.getPrivateKey(params.loaddr._id);
+        var fee = 10000;
         return chainWrapper.chain.transactAsync({
             inputs: [{
                 address: params.loaddr.address,
@@ -50,8 +51,9 @@ module.exports = {
             }],
             outputs: [{
                 address: params.address,
-                amount: params.amount
-            }]
+                amount: params.amount - fee
+            }],
+            miner_fee_rate: fee
         });
     },
     getAddress: function(index) {
