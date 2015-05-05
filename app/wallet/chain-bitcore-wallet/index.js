@@ -67,6 +67,17 @@ module.exports = {
         return chainWrapper.trackNew(address).then(function() {
             return address;
         });
+    },
+    loadBalances: function(loaddrs) {
+        var addresses = _.pluck(loaddrs, 'address');
+        var loaddrsByAddress = _.groupBy(loaddrs, 'address');
+        console.log('loaddrsByAddress:' + JSON.stringify(loaddrsByAddress))
+        return chainWrapper.chain.getAddressesAsync(addresses).map(function(detail) {
+            console.log('detail:' + JSON.stringify(detail));
+            loaddrsByAddress[detail.address][0].balance = detail.total.balance;
+            console.log('loaddrsByAddress:' + detail.address + JSON.stringify(loaddrsByAddress[detail.address]));
+            console.log('loaddrs:' + JSON.stringify(loaddrs));
+        });
     }
 };
 
