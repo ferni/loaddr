@@ -21,7 +21,7 @@ loaddrSchema.methods.loadPrototype = function() {
     this.onIncoming = prot.onIncoming;
     this.validateSettings = prot.validateSettings;
     this.createForm = prot.createForm();
-    this.settingsForm = prot.settingsForm();
+    this.settingsForm = prot.settingsForm(this.settings);
 };
 loaddrSchema.plugin(autoIncrement.plugin, 'Loaddr');
 module.exports = db.model('Loaddr', loaddrSchema);

@@ -18,7 +18,8 @@ module.exports = {
     createForm: function () {
         return 'Destination <input name="destinationAddress" type="text" />';
     },
-    settingsForm: function() {
-        return this.createForm();
+    settingsForm: function(settings) {
+        return 'Destination <input name="destinationAddress" type="text" value="'
+            + settings.destinationAddress + '"/>';
     }
 };
