@@ -2,13 +2,12 @@ var wallet = require('../wallet');
 
 module.exports = {
     onIncoming: function (amount, incomingID, model) {
-        wallet.send({
+        return wallet.send({
             loaddr: model,
             address: model.settings.destinationAddress,
             amount: amount,
             incomingID: incomingID
-        }, function (err) {
-            if (err) throw err;
+        }).then(function () {
             model.log('Sent funds');
         });
     },

@@ -37,17 +37,13 @@ module.exports = {
      * @param params {{address:string,amount:int,incomingID:string,loaddr:Object}}
      * @param cb Function callback.
      */
-    send: function(params, cb) {
+    send: function(params) {
         if (params.amount < 0) {
-            return cb(new Error('Cannot send negative amount'));
+            throw 'Cannot send negative amount';
         }
-        try {
-            substractFromPending(params.amount, params.incomingID);
-        } catch (e) {
-            return cb(new Error(e));
-        }
+        substractFromPending(params.amount, params.incomingID);
         var privateKey = hd.getPrivateKey(params.loaddr._id);
-        chainWrapper.chain.transactAsync({
+        return chainWrapper.chain.transactAsync({
             inputs: [{
                 address: params.loaddr.address,
                 private_key: privateKey
@@ -56,10 +52,6 @@ module.exports = {
                 address: params.address,
                 amount: params.amount
             }]
-        }).then(function(){
-            cb(null);
-        }).catch(function(e) {
-            cb(e);
         });
     },
     getAddress: function(index) {
