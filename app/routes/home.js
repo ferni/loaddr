@@ -5,6 +5,11 @@ var db = require('../db').db,
 function renderApp(req, res, next) {
     db.model('Loaddr').find({_creator: req.user._id}, function (err, loaddrs) {
         if (err) return next(err);
+        if (loaddrs.length === 0) {
+            return res.render('app', {
+                loaddrs: loaddrs
+            });
+        }
         _.invoke(loaddrs, 'loadPrototype');
         loaddrs = _.invoke(loaddrs, 'toObject');
         wallet.loadBalances(loaddrs).then(function() {
