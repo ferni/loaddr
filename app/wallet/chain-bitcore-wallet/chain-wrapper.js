@@ -61,9 +61,10 @@ var api = {
         }).then(function(tracked) {
             //track addresses not already tracked
             var track = _.difference(addresses, tracked);
-            return Promise.all(_.map(track, function(addressToTrack) {
-               return api.trackNew(addressToTrack);
-            }));
+            console.log('Left to track:' + track.toString());
+            return track;
+        }).map(function(addressToTrack) {
+            return api.trackNew(addressToTrack);
         });
     },
     trackNew: function(address) {

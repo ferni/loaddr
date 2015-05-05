@@ -1,5 +1,6 @@
 var wallet = require('./wallet'),
-    loaddrModel = require('./models/loaddr');
+    loaddrModel = require('./models/loaddr'),
+    _ = require('lodash');
 
 function onAddressReceives(address, amount, incomingID) {
     console.log('Received ' + amount + ' on ' + address);
@@ -21,7 +22,8 @@ function onAddressReceives(address, amount, incomingID) {
 }
 
 exports.init = function(app) {
-    loaddrModel.find({}, 'address', function(err, addresses) {
+    loaddrModel.find({}, 'address', function(err, loaddrs) {
+        var addresses = _.pluck(loaddrs, 'address');
         wallet.init(app, addresses, onAddressReceives);
     });
 };
