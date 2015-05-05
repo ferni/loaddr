@@ -38,7 +38,8 @@ module.exports = function(app) {
                     res.redirect('/');
                 })
             }).catch(function(e) {
-                newLoaddr.remove().exec();
+                console.error('Error:' + e.message);
+                newLoaddr.remove();
                 next(e);
             });
         }).catch(function(e) {
