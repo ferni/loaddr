@@ -21,9 +21,9 @@ module.exports = function(app) {
         var settings = req.body;
         console.log('settings:' + JSON.stringify(settings));
         var proto = loaddrs.getPrototype(loaddrType);
-        proto.validateSettings(settings).then(function(valid) {
-            if (!valid) {
-                throw 'Invalid settings';
+        proto.validateSettings(settings).then(function(result) {
+            if (result.errors) {
+                throw result.errors.toString();
             }
         }).then(function() {
             var Loaddr = db.model('Loaddr');

@@ -18,12 +18,12 @@ module.exports = {
             if(settings.destinationAddress) {
                 try {
                     bitcore.Address.fromString(settings.destinationAddress);
-                    resolve(true);
+                    resolve({valid: true});
                 } catch(e) {
-                    resolve(false);
+                    resolve({errors: ['Invalid address format.']});
                 }
             } else {
-                resolve(false);
+                resolve({errors: ['Please enter a bitcoin address to redirect the funds to.']});
             }
         });
     },
