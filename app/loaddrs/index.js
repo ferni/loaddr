@@ -1,13 +1,18 @@
+var fs = require('fs');
+var _ = require('lodash');
+var types = fs.readdirSync('./app/loaddrs');
+types = _.map(types, function(l) {
+    return l.split('.')[0];
+});
+_.remove(types, function(l) {
+    return l === 'index';
+});
+console.log('Loaddr types: ' + types.toString());
+
 exports.getPrototype = function getPrototype(type) {
-    var loaddr;
-    if (!type || type === '' || type === 'index') {
-        throw 'Invalid type: "' + type + '"';
+    if (!_.includes(types, type)) {
+        throw 'Invalid loaddr type: "' + type + '"';
     }
-    try {
-        loaddr = require('./' + type);
-    } catch (e) {
-        throw 'Loaddr "' + type + '" not defined in /app/loaddrs';
-    }
-    return loaddr;
+    return require('./' + type);
 };
 
