@@ -1,4 +1,6 @@
 var wallet = require('../wallet');
+var Promise = require('bluebird');
+var bitcore = require('bitcore');
 
 module.exports = {
     onIncoming: function (amount, incomingID, model) {
@@ -12,7 +14,18 @@ module.exports = {
         });
     },
     validateSettings: function (settings) {
-        return settings.destinationAddress ? true : false;
+        return new Promise(function(resolve, reject){
+            if(settings.destinationAddress) {
+                try {
+                    bitcore.Address.fromString(settings.destinationAddress);
+                    resolve(true);
+                } catch(e) {
+                    resolve(false);
+                }
+            } else {
+                resolve(false);
+            }
+        });
     },
     createForm: function () {
         return 'Destination <input name="destinationAddress" type="text" />';

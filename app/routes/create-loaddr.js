@@ -21,16 +21,19 @@ module.exports = function(app) {
         var settings = req.body;
         console.log('settings:' + JSON.stringify(settings));
         var proto = loaddrs.getPrototype(loaddrType);
-        if (!proto.validateSettings(settings)) {
-            next(new Error('Invalid settings'));
-        }
-        var Loaddr = db.model('Loaddr');
-        var loaddr = new Loaddr({
-            _creator: req.user._id,
-            type: loaddrType,
-            settings: settings
-        });
-        loaddr.saveAsync().spread(function(newLoaddr) {
+        proto.validateSettings(settings).then(function(valid) {
+            if (!valid) {
+                throw 'Invalid settings';
+            }
+        }).then(function() {
+            var Loaddr = db.model('Loaddr');
+            var loaddr = new Loaddr({
+                _creator: req.user._id,
+                type: loaddrType,
+                settings: settings
+            });
+            return loaddr.saveAsync();
+        }).spread(function(newLoaddr) {
             wallet.getAddress(newLoaddr._id).then(function(address) {
                 newLoaddr.address = address;
                 newLoaddr.save(function(err) {
