@@ -1,5 +1,5 @@
-var wallet = require('../wallet');
-
+var wallet = require('../../wallet');
+var bitrefill = require('./bitrefill');
 module.exports = {
     onIncoming: function (amount, incomingID, model) {
         return wallet.send({
@@ -12,10 +12,12 @@ module.exports = {
         });
     },
     validateSettings: function (settings) {
-        return settings.destinationAddress ? true : false;
+        return bitrefill.lookupNumber(settings.number).then(function(result) {
+            return {errors: [result]};
+        });
     },
     createForm: function () {
-        return 'Destination <input name="destinationAddress" type="text" />';
+        return 'Phone number: <input name="number" type="text" />';
     },
     settingsForm: function(settings) {
         //TODO: Make the settings editable (ajax)

@@ -17,7 +17,7 @@ module.exports = function(app) {
     });
 
     app.post('/create-loaddr', isLoggedIn, function(req, res, next) {
-        var loaddrType = 'redirect';
+        var loaddrType = req.query.type;
         var settings = req.body;
         console.log('settings:' + JSON.stringify(settings));
         var proto = loaddrs.getPrototype(loaddrType);
