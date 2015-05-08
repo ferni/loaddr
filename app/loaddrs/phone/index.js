@@ -19,6 +19,8 @@ module.exports = {
                 .value();
             if (maxAffordablePrice !== -Infinity) {
                 var pack = _.find(operator.packages, {satoshiPrice: maxAffordablePrice});
+                loaddr.log('Buying ' + pack.value + ' ' + operator.currency +
+                    ' worth of credit for ' + pack.satoshiPrice + ' satoshi.');
                 return bitrefill.placeOrder({
                     "operatorSlug": operator.slug,
                     "valuePackage" : pack.value,
@@ -27,10 +29,14 @@ module.exports = {
                 });
             }
             return false;
-        }).then(function(order) {
-            if (order) {
-                console.log('order placed: ' + JSON.stringify(order));
-            }
+        }).spread(function(result, body) {
+            if (!result) return;
+            return wallet.send({
+                loaddr: loaddr,
+                address: body.address,
+                amount: body.satoshiPrice + 10000,
+                incomingID: incomingID
+            });
         });
     },
     validateSettings: function (settings) {
