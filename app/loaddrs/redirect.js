@@ -18,7 +18,7 @@ module.exports = {
             if(settings.destinationAddress) {
                 try {
                     bitcore.Address.fromString(settings.destinationAddress);
-                    resolve({valid: true});
+                    resolve({});
                 } catch(e) {
                     resolve({errors: ['Invalid address format.']});
                 }

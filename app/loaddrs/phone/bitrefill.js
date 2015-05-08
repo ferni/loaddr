@@ -32,3 +32,6 @@ exports.lookupNumber = function(number) {
     return makeRequest('GET', 'lookup_number?number=' + number, null);
 };
 
+exports.placeOrder = function(options) {
+    return makeRequest('POST', 'order', options);
+};

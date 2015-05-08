@@ -5,7 +5,7 @@ var wallet = require('./wallet'),
 function onAddressReceives(address, amount, incomingID) {
     console.log('Received ' + amount + ' on ' + address);
     //get corresponding loaddr
-    loaddrModel.findAsync({address: address}).then(function (docs) {
+    loaddrModel.find({address: address}).populate('_creator').then(function (docs) {
         if (docs.length > 1) {
             throw 'There\'s more than a loaddr with the same address';
         }
@@ -14,12 +14,11 @@ function onAddressReceives(address, amount, incomingID) {
             return;
         }
         var loaddr = docs[0];
-        console.log('loaddr found: ' + JSON.stringify(loaddr));
         loaddr.loadPrototype();
         return loaddr.onIncoming(amount, incomingID, loaddr);
     }).catch(function(e) {
         console.error('Error when processing incoming funds on address ' + address);
-        console.log(JSON.stringify(e));
+        console.log(e.message);
     });
 }
 

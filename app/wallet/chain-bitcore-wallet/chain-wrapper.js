@@ -51,7 +51,10 @@ function handleNotification(onReceivedHandler) {
 var api = {
     init: function(app, addresses, onReceivedHandler) {
         app.post('/chain', handleNotification(onReceivedHandler));
-
+        console.warn('Chain notification sync at startup disabled');
+        return new Promise(function(resolve) {
+            resolve();
+        });
         //check the tracked addresses
         return chain.listNotificationsAsync().then(function(notif) {
             return _.chain(notif)
