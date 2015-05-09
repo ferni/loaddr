@@ -11,7 +11,6 @@ function renderApp(req, res, next) {
             });
         }
         _.invoke(loaddrs, 'loadPrototype');
-        loaddrs = _.invoke(loaddrs, 'toObject');
         wallet.loadBalances(loaddrs).then(function() {
             return res.render('app', {
                 loaddrs: loaddrs
