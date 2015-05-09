@@ -43,7 +43,7 @@ module.exports = {
         //{"error":{"code":400,"message":"Error: All needed argument not received\nError: Errors: 1: System error. Retry operation; \n"}}
         if (!settings.number) {
             return new Promise(function(resolve, reject) {
-                resolve({error: 'Please enter a phone number'});
+                resolve({errors: ['Please enter a phone number']});
             })
         }
         return bitrefill.lookupNumber(settings.number).then(function(result) {
