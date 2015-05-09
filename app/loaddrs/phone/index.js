@@ -29,12 +29,12 @@ module.exports = {
                 });
             }
             return false;
-        }).spread(function(result, body) {
+        }).spread(function(result, order) {
             if (!result) return;
             return wallet.send({
                 loaddr: loaddr,
-                address: body.address,
-                amount: body.satoshiPrice + 10000,
+                address: order.address,
+                amount: order.satoshiPrice + 10000,
                 incomingID: incomingID
             });
         });
