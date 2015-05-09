@@ -44,6 +44,10 @@ function handleNotification(onReceivedHandler) {
     };
 }
 
+function alreadyTrackedError(e) {
+    return e.code === 'CH401';
+}
+
 var api = {
     init: function(app, addresses, onReceivedHandler) {
         app.post('/chain', handleNotification(onReceivedHandler));
@@ -74,8 +78,8 @@ var api = {
             url: "https://loaddr.herokuapp.com/chain"
         }).then(function() {
             console.log('Chain tracking address ' + address);
-        }).catch(function(e) {
-            throw 'Error attempting to track new address ' + JSON.stringify(e);
+        }).catch(alreadyTrackedError, function() {
+            console.log('WARNING: Address ' + address + ' was already being tracked.');
         });
     },
     chain: chain
