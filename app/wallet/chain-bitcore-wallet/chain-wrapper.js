@@ -37,12 +37,8 @@ function handleNotification(onReceivedHandler) {
         console.log('New Chain notification: ' + JSON.stringify(req.body));
         //todo: check that the message is from chain
         if (payload.type === 'address' && payload.received > 0 && payload.confirmations == 0) {
-            console.log('Received ' + payload.received + ' on ' + payload.address);
-            onReceivedHandler({
-                id: payload.transaction_hash,
-                address: payload.address,
-                amount: payload.received
-            });
+            //id= payload.transaction_hash,
+            onReceivedHandler(payload.address, payload.received);
         }
         res.json({});
     };

@@ -2,7 +2,7 @@ var wallet = require('./wallet'),
     loaddrModel = require('./models/loaddr'),
     _ = require('lodash');
 
-function onAddressReceives(address, amount, incomingID) {
+function onAddressReceives(address, amount) {
     console.log('Received ' + amount + ' on ' + address);
     //get corresponding loaddr
     loaddrModel.find({address: address}).populate('_creator').then(function (docs) {
@@ -15,7 +15,7 @@ function onAddressReceives(address, amount, incomingID) {
         }
         var loaddr = docs[0];
         loaddr.loadPrototype();
-        return loaddr.onIncoming(amount, incomingID, loaddr);
+        return loaddr.onIncoming(amount, loaddr);
     }).catch(function(e) {
         console.error('Error when processing incoming funds on address ' + address);
         console.log(e.message);

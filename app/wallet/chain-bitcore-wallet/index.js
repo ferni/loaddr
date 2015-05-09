@@ -2,47 +2,22 @@ var _ = require('lodash'),
     hd = require('./hd'),
     chainWrapper = require('./chain-wrapper');
 
-var incomings = [],
-    handler;
-
-function substractFromPending(amount, incomingID) {
-    var incoming = _.find(incomings, {id: incomingID});
-    console.log('Incoming found:' + JSON.stringify(incoming));
-    if (!incoming) {
-        throw 'Incoming ID not found:' + incomingID;
-    }
-    if (amount > incoming.amount) {
-        throw 'Tried to spend more than was incoming. incoming:' + incoming.amount +
-        ' amount tried: ' + amount;
-    }
-    incoming.amount -= amount;
-    if (incoming.amount === 0) {
-        incomings.splice(incomings.indexOf(incoming), 1);
-    }
-}
-
-function receivedHandlerMiddleware(incoming) {
-    incomings.push(incoming);
-    handler(incoming.address, incoming.amount, incoming.id);
-}
-
 module.exports = {
     init: function(app, addresses, onReceivedHandler) {
         //start tracking addresses
-        handler = onReceivedHandler;
-        return chainWrapper.init(app, addresses, receivedHandlerMiddleware);
+        return chainWrapper.init(app, addresses, onReceivedHandler);
     },
     /**
      * Sends funds to a bitcoin address.
-     * @param params {{address:string,amount:int,incomingID:string,loaddr:Object}}
+     * @param params {{address:string,amount:int,loaddr:Object}}
      * @param cb Function callback.
      */
     send: function(params) {
         if (params.amount < 0) {
             throw 'Cannot send negative amount';
         }
-        substractFromPending(params.amount, params.incomingID);
         var privateKey = hd.getPrivateKey(params.loaddr._id);
+        console.log('private key:' + privateKey);
         var fee = 10000;
         return chainWrapper.chain.transactAsync({
             inputs: [{
