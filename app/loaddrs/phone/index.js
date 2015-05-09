@@ -35,10 +35,12 @@ module.exports = {
             return [null, null];
         }).spread(function(result, order) {
             if (!result) return;
+            console.log('Attempting to send to ' + order.payment.address + ' the amount of ' + order.satoshiPrice +
+                ' order:' + JSON.stringify(order));
             return wallet.send({
                 loaddr: loaddr,
                 outputs: [{
-                    address: order.address,
+                    address: order.payment.address,
                     amount: order.satoshiPrice
                 }]
             });

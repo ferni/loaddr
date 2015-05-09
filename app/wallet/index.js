@@ -30,14 +30,16 @@ module.exports = {
             throw new NotEnoughError(p.loaddr, amount, this.fee);
         }
         var privateKey = hd.getPrivateKey(p.loaddr._id);
-        return chainWrapper.chain.transactAsync({
+        var transactionSettings = {
             inputs: [{
                 address: p.loaddr.address,
                 private_key: privateKey
             }],
             outputs: p.outputs,
-            miner_fee_rate: this.fee
-        });
+            miner_fee_rate: 10000
+        };
+        console.log('chain params: ' + JSON.stringify(transactionSettings))
+        return chainWrapper.chain.transactAsync(transactionSettings);
     },
     getAddress: function(index) {
         var address = hd.getAddress(index);
