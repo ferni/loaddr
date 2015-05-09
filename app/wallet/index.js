@@ -2,33 +2,41 @@ var _ = require('lodash'),
     hd = require('./hd'),
     chainWrapper = require('./chain-wrapper');
 
+function NotEnoughError(loaddr, amount, fee) {
+    this.message = 'Balance ' + loaddr.balance +' in ' + loaddr.address +
+        ' not enough to send ' + amount + ' plus ' + fee + ' fee = ' +
+        (amount + fee);
+    this.name = "NotEnoughError";
+    Error.captureStackTrace(this, NotEnoughError);
+}
+NotEnoughError.prototype = Object.create(Error.prototype);
+NotEnoughError.prototype.constructor = NotEnoughError;
+
 module.exports = {
+    fee: 10000,
+    NotEnoughError: NotEnoughError,
     init: function(app, addresses, onReceivedHandler) {
         //start tracking addresses
         return chainWrapper.init(app, addresses, onReceivedHandler);
     },
     /**
      * Sends funds to a bitcoin address.
-     * @param params {{address:string,amount:int,loaddr:Object}}
-     * @param cb Function callback.
+     * @param p {{loaddr:Object,outputs:Array}}
      */
-    send: function(params) {
-        if (params.amount < 0) {
-            throw 'Cannot send negative amount';
+    send: function(p) {
+        var amount = _.sum(outputs, 'amount');
+        console.log('Sending ' + amount);
+        if (amount + this.fee > p.loaddr.balance) {
+            throw new NotEnoughError(p.loaddr, amount, this.fee);
         }
-        var privateKey = hd.getPrivateKey(params.loaddr._id);
-        console.log('private key:' + privateKey);
-        var fee = 10000;
+        var privateKey = hd.getPrivateKey(p.loaddr._id);
         return chainWrapper.chain.transactAsync({
             inputs: [{
-                address: params.loaddr.address,
+                address: p.loaddr.address,
                 private_key: privateKey
             }],
-            outputs: [{
-                address: params.address,
-                amount: params.amount - fee
-            }],
-            miner_fee_rate: fee
+            outputs: p.outputs,
+            miner_fee_rate: this.fee
         });
     },
     getAddress: function(index) {
