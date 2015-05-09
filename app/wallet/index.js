@@ -24,7 +24,7 @@ module.exports = {
      * @param p {{loaddr:Object,outputs:Array}}
      */
     send: function(p) {
-        var amount = _.sum(outputs, 'amount');
+        var amount = _.sum(p.outputs, 'amount');
         console.log('Sending ' + amount);
         if (amount + this.fee > p.loaddr.balance) {
             throw new NotEnoughError(p.loaddr, amount, this.fee);
