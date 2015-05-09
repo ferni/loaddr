@@ -7,12 +7,13 @@ var _ = require('lodash');
 module.exports = {
     onIncoming: function (amount, loaddr) {
         wallet.loadBalances([loaddr]).then(function() {
+            console.log('looking up number');
             return bitrefill.lookupNumber(loaddr.settings.number);
         }).spread(function(result, body) {
             var operator = JSON.parse(body).operator;
             var maxAffordablePrice = _.chain(operator.packages)
                 .filter(function(p) {
-                    return p.satoshiPrice <= loaddr.balance - 10000;
+                    return p.satoshiPrice <= loaddr.balance - wallet.fee;
                 })
                 .pluck('satoshiPrice')
                 .max()
@@ -28,13 +29,18 @@ module.exports = {
                     "email" : loaddr._creator.local.email
                 });
             }
-            return false;
+            var minPackage = _.min(operator.packages, 'satoshiPrice');
+            loaddr.log('Saved ' + amount + '. Add ' + ((minPackage.satoshiPrice + wallet.fee) - loaddr.balance) +
+                ' more to buy the ' + minPackage.value + ' ' + operator.currency + ' top up package.');
+            return [null, null];
         }).spread(function(result, order) {
             if (!result) return;
             return wallet.send({
                 loaddr: loaddr,
-                address: order.address,
-                amount: order.satoshiPrice + 10000
+                outputs: [{
+                    address: order.address,
+                    amount: order.satoshiPrice
+                }]
             });
         });
     },
