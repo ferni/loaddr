@@ -63,6 +63,6 @@ module.exports = {
     },
     settingsForm: function(settings) {
         //TODO: Make the settings editable (ajax)
-        return 'Destination: <strong>' + settings.destinationAddress+ '</strong>';
+        return 'Phone number: <strong>' + settings.number+ '</strong>';
     }
 };
