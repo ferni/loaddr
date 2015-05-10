@@ -3,13 +3,15 @@ var Promise = require('bluebird');
 var bitcore = require('bitcore');
 
 module.exports = {
-    onIncoming: function (amount, model) {
+    onIncoming: function (amount, loaddr) {
         return wallet.send({
-            loaddr: model,
-            address: model.settings.destinationAddress,
-            amount: amount
+            loaddr: loaddr,
+            outputs: [{
+                address: loaddr.settings.destinationAddress,
+                amount: amount
+            }]
         }).then(function () {
-            model.log('Sent funds');
+            loaddr.log('Sent funds');
         });
     },
     validateSettings: function (settings) {
