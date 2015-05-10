@@ -18,7 +18,7 @@ module.exports = function(app) {
                loaddr.checked = req.query.loaddr == loaddr._id;
             })
             .then(function(loaddrs) {
-                res.render('withdraw', {loaddrs: loaddrs});
+                res.render('withdraw', {loaddrs: loaddrs, user: req.user});
             });
     });
 
@@ -40,7 +40,7 @@ module.exports = function(app) {
                 return wallet.withdraw(loaddrs, req.body.address);
             })
             .then(function() {
-               return res.render('withdraw', {message: 'Withdraw successful'});
+               return res.render('withdraw', {message: 'Withdraw successful', user: req.user});
             });
     });
 };

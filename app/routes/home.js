@@ -7,13 +7,15 @@ function renderApp(req, res, next) {
         if (err) return next(err);
         if (loaddrs.length === 0) {
             return res.render('app', {
-                loaddrs: loaddrs
+                loaddrs: loaddrs,
+                user: req.user
             });
         }
         _.invoke(loaddrs, 'loadPrototype');
         wallet.loadBalances(loaddrs).then(function() {
             return res.render('app', {
-                loaddrs: loaddrs
+                loaddrs: loaddrs,
+                user: req.user
             });
         }).catch(function(e) {
             next(e);

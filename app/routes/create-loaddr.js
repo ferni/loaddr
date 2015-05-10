@@ -12,7 +12,8 @@ module.exports = function(app) {
             return next(new Error(e));
         }
         res.render('create-loaddr', {
-            form: loaddrPrototype.createForm()
+            form: loaddrPrototype.createForm(),
+            user: req.user
         });
     });
 
