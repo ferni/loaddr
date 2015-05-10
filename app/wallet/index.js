@@ -50,8 +50,10 @@ module.exports = {
     loadBalances: function(loaddrs) {
         var addresses = _.pluck(loaddrs, 'address');
         var loaddrsByAddress = _.groupBy(loaddrs, 'address');
-        return chainWrapper.chain.getAddressesAsync(addresses).map(function(detail) {
+        return chainWrapper.chain.getAddressesAsync(addresses).each(function(detail) {
             loaddrsByAddress[detail.address][0].balance = detail.total.balance;
+        }).then(function() {
+            return loaddrs;
         });
     }
 };
