@@ -1,0 +1,6 @@
+{{#each loaddrs}}
+    <li>{{type}} loader
+        <strong>{{address}}</strong> {{balance}}
+        <input type="checkbox" name="{{_id}}" value="{{balance}}" {{#if checked}}checked{{/if}} />
+    </li>
+{{/each}}

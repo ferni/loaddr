@@ -3,6 +3,7 @@ var isLoggedIn = require('./is-logged-in');
 module.exports = function(app, passport) {
     require('./home')(app);
     require('./create-loaddr')(app);
+    require('./withdraw')(app);
 
     app.get('/login', function(req, res) {
         res.render('login', { message: req.flash('loginMessage') });
