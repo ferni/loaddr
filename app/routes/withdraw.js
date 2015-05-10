@@ -9,10 +9,13 @@ module.exports = function(app) {
     app.get('/withdraw', isLoggedIn, function(req, res, next) {
         db.model('Loaddr')
             .findAsync({_creator: req.user._id})
+            .then(wallet.loadBalances)
+            .filter(function(loaddr) {
+                return loaddr.balance > 0;
+            })
             .each(function(loaddr) {
                loaddr.checked = req.query.loaddr == loaddr._id;
             })
-            .then(wallet.loadBalances)
             .then(function(loaddrs) {
                 res.render('withdraw', {loaddrs: loaddrs});
             });
