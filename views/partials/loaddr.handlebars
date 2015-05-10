@@ -1,23 +1,12 @@
-<div class="simpleTabs">
-    <ul class="simpleTabsNavigation">
-        <li><a href="#">Address</a></li>
-        <li><a href="#">Logs</a></li>
-        <li><a href="#">Balance</a></li>
-        <li><a href="#">Settings</a></li>
-    </ul>
-    <div class="simpleTabsContent">
-        <img class="loaddr-type" src="img/{{type}}-loaddr.png"/>
-        <div class="address-container">
-            <strong class="address">{{address}}</strong>
-            <div class="qrcode">{{address}}</div>
-        </div>
+<div class="loaddr">
+   <h2 class="loaddr-name">{{type}} loader</h2>
+    <div class="address-container">
+        <strong class="address">{{address}}</strong>
+        <div class="qrcode">{{address}}</div>
     </div>
-    <div class="simpleTabsContent">
-    </div>
-    <div class="simpleTabsContent">
-        Unprocessed balance: {{balance}}
-    </div>
-    <div class="simpleTabsContent">
+    <div>
+        <h3>What it does</h3>
         {{{settingsForm}}}
     </div>
+    <span> Change: {{balance}} <a href="/withdraw?loaddr={{_id}}">Withdraw</a></span>
 </div>

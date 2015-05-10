@@ -12,3 +12,7 @@
     display: inline;
     width: 400px;
 }
+
+.loaddr {
+    border: 1px solid #484848;
+}
