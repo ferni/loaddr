@@ -1,6 +1,19 @@
+<div>{{message}}</div>
+
+<form method="post">
+    <label for="address">Address:</label><input id="address" name="address" type="text" />
+<table>
 {{#each loaddrs}}
-    <li>{{type}} loader
-        <strong>{{address}}</strong> {{balance}}
-        <input type="checkbox" name="{{_id}}" value="{{balance}}" {{#if checked}}checked{{/if}} />
-    </li>
+    <tr>
+        <td>{{type}} loader</td>
+        <td><strong>{{address}}</strong></td>
+        <td>{{balance}}</td>
+        <td><input type="checkbox" name="loaddrs[{{@index}}]" value="{{_id}}" {{#if checked}}checked{{/if}} /></td>
+    </tr>
 {{/each}}
+</table>
+    <button type="submit">Withdraw</button>
+</form>
+<script type="text/javascript">
+
+</script>

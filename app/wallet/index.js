@@ -21,7 +21,7 @@ module.exports = {
     },
     /**
      * Sends funds to a bitcoin address.
-     * @param p {{loaddr:Object,outputs:Array}}
+     * @param p:{loaddr:{Object, outputs:{address:string, amount:int}}
      */
     send: function(p) {
         var amount = _.sum(p.outputs, 'amount');
@@ -54,6 +54,23 @@ module.exports = {
             loaddrsByAddress[detail.address][0].balance = detail.total.balance;
         }).then(function() {
             return loaddrs;
+        });
+    },
+    withdraw: function(loaddrs, address) {
+        var inputs = _.map(loaddrs, function(l) {
+            return {
+                address: l.address,
+                private_key: hd.getPrivateKey(l._id)
+            }
+        });
+        var amount = _.sum(loaddrs, 'balance');
+        return chainWrapper.chain.transactAsync({
+            inputs: inputs,
+            outputs: [{
+                address: address,
+                amount: amount - this.fee
+            }],
+            miner_fee_rate: this.fee
         });
     }
 };
