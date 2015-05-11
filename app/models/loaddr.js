@@ -11,7 +11,8 @@ var loaddrSchema = mongoose.Schema({
     type: String,
     address: String,
     index: {type: Number},
-    settings: Object
+    settings: Object,
+    logs: Array
 });
 
 loaddrSchema.methods.log = function(msg) {
@@ -20,6 +21,8 @@ loaddrSchema.methods.log = function(msg) {
         address: this.address,
         message: msg
     });
+    this.logs.push(msg);
+    this.save();
 };
 
 loaddrSchema.methods.loadPrototype = function() {

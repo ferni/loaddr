@@ -8,6 +8,10 @@
         <h3>What it does</h3>
         {{{settingsForm}}}
     </div>
-    <div class="log" id="{{address}}"></div>
+    <div class="log" id="{{address}}">
+        {{#each logs}}
+            {{@this}}
+        {{/each}}
+    </div>
     <span> Change: {{balance}} <a href="/withdraw?loaddr={{_id}}">Withdraw</a></span>
 </div>
