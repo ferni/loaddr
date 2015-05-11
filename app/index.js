@@ -3,7 +3,6 @@ var wallet = require('./wallet'),
     _ = require('lodash');
 
 function onAddressReceives(address, amount) {
-    console.log('Received ' + amount + ' on ' + address);
     //get corresponding loaddr
     loaddrModel.find({address: address}).populate('_creator').then(function (docs) {
         if (docs.length > 1) {
@@ -14,6 +13,7 @@ function onAddressReceives(address, amount) {
             return;
         }
         var loaddr = docs[0];
+        loaddr.log('Received ' + amount);
         loaddr.loadPrototype();
         return loaddr.onIncoming(amount, loaddr);
     }).catch(function(e) {

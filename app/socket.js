@@ -31,7 +31,5 @@ exports.init = function(app) {
 };
 
 exports.sendTo = function(userID, eventType, data) {
-    'use strict';
     io.to('user:' + userID).emit(eventType, data);
-    io.emit('change', 'asdf');
 };

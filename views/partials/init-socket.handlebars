@@ -2,7 +2,4 @@
 <script>
     var socket = io();
     socket.emit('authenticate', '{{connectionID}}');
-    socket.on('change', function (data) {
-        console.log('received data:' + data);
-    });
 </script>

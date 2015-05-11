@@ -19,6 +19,9 @@
     }
 
     //SOCKET.IO
-
+    socket.on('log', function (data) {
+        console.log('received data:' + data);
+        document.getElementById(data.address).innerHTML += data.message;
+    });
 
 }());
