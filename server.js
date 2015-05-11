@@ -45,6 +45,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+
+var server = require('./app/socket').init(app);
+
 // routes ======================================================================
 require('./app/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
@@ -55,5 +58,5 @@ require('./app/models/loaddr');
 require('./app').init(app);
 
 // launch ======================================================================
-app.listen(port);
+server.listen(port);
 console.log('The magic happens on port ' + port);

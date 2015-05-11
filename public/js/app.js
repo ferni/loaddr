@@ -3,6 +3,7 @@
  */
 
 (function() {
+    //QR CODES
     var qrcodes = document.getElementsByClassName('qrcode');
     for(var i = 0; i < qrcodes.length; i++) {
         var address = qrcodes[i].textContent;
@@ -16,4 +17,8 @@
             correctLevel : QRCode.CorrectLevel.M
         });
     }
+
+    //SOCKET.IO
+
+
 }());
