@@ -15,22 +15,5 @@
     {{/each}}
 </div>
 
-<script type="text/javascript" src="js/qrcode.js"></script>
-
-<script type="text/javascript">
-(function() {
-    var qrcodes = document.getElementsByClassName('qrcode');
-    for(var i = 0; i < qrcodes.length; i++) {
-        var address = qrcodes[i].textContent;
-        qrcodes[i].innerHTML = '';
-        new QRCode(qrcodes[i], {
-            text: address,
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
-        });
-    }
-}());
-</script>
+<script type="text/javascript" src="js/vendor/qrcode.js"></script>
+<script type="text/javascript" src="js/vendor/app.js"></script>
