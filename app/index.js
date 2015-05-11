@@ -17,6 +17,8 @@ function onAddressReceives(address, amount) {
         loaddr.loadPrototype();
         return wallet.loadBalances([loaddr]).then(function() {
             return loaddr.onIncoming(amount, loaddr);
+        }).then(function() {
+            return loaddr.balanceChanged();
         });
 
     }).catch(function(e) {

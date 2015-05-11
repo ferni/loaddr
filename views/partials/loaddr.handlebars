@@ -1,4 +1,4 @@
-<div class="loaddr">
+<div class="loaddr" id="{{address}}">
    <h2 class="loaddr-name">{{type}} loader</h2>
     <div class="address-container">
         <strong class="address">{{address}}</strong>
@@ -8,10 +8,10 @@
         <h3>What it does</h3>
         {{{settingsForm}}}
     </div>
-    <div class="log" id="{{address}}">
+    <div class="log">
         {{#each logs}}
             {{@this}}
         {{/each}}
     </div>
-    <span> Change: {{balance}} <a href="/withdraw?loaddr={{_id}}">Withdraw</a></span>
+    <span> Change: <span class="balance">{{balance}}</span> <a href="/withdraw?loaddr={{_id}}">Withdraw</a></span>
 </div>

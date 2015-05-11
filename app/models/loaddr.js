@@ -25,6 +25,14 @@ loaddrSchema.methods.log = function(msg) {
     this.save();
 };
 
+loaddrSchema.methods.balanceChanged = function() {
+    //update the user
+    socket.sendTo(this._creator._id, 'update balance', {
+        address: this.address,
+        balance: this.balance
+    });
+};
+
 loaddrSchema.methods.loadPrototype = function() {
     var prot = require('../loaddrs').getPrototype(this.type);
     this.onIncoming = prot.onIncoming;

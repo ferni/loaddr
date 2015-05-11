@@ -21,13 +21,14 @@ module.exports = {
     },
     /**
      * Sends funds to a bitcoin address.
-     * @param p:{loaddr:{Object, outputs:{address:string, amount:int}}
+     * @param p:{loaddr:{Object, outputs:Array[{address:string, amount:int}]}
      */
     send: function(p) {
+        var fee = this.fee;
         var amount = _.sum(p.outputs, 'amount');
         console.log('Sending ' + amount);
-        if (amount + this.fee > p.loaddr.balance) {
-            throw new NotEnoughError(p.loaddr, amount, this.fee);
+        if (amount + fee > p.loaddr.balance) {
+            throw new NotEnoughError(p.loaddr, amount, fee);
         }
         var privateKey = hd.getPrivateKey(p.loaddr._id);
         var transactionSettings = {
@@ -36,10 +37,13 @@ module.exports = {
                 private_key: privateKey
             }],
             outputs: p.outputs,
-            miner_fee_rate: 10000
+            miner_fee_rate: fee
         };
-        console.log('chain params: ' + JSON.stringify(transactionSettings))
-        return chainWrapper.chain.transactAsync(transactionSettings);
+        console.log('chain params: ' + JSON.stringify(transactionSettings));
+        return chainWrapper.chain.transactAsync(transactionSettings).then(function() {
+            p.loaddr.balance -= amount + fee;
+            p.loaddr.balanceChanged();
+        });
     },
     getAddress: function(index) {
         var address = hd.getAddress(index);
