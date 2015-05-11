@@ -7,8 +7,8 @@ var _ = require('lodash');
 module.exports = {
     onIncoming: function (amount, loaddr) {
         console.log('looking up number');
-        return bitrefill.lookupNumber(loaddr.settings.number).spread(function(result, body) {
-            var operator = JSON.parse(body).operator;
+        return bitrefill.lookupNumber(loaddr.settings.number).then(function(body) {
+            var operator = body.operator;
             var maxAffordablePrice = _.chain(operator.packages)
                 .filter(function(p) {
                     return p.satoshiPrice <= loaddr.balance - wallet.fee;
@@ -51,9 +51,10 @@ module.exports = {
                 resolve({errors: ['Please enter a phone number']});
             })
         }
-        return bitrefill.lookupNumber(settings.number).then(function(result) {
-            if (result.error) {
-                return {errors: ['Phone number not supported']};
+        return bitrefill.lookupNumber(settings.number).then(function(body) {
+            console.log(' body:' + JSON.stringify(body));
+            if (body.error) {
+                return {errors: ['Sorry, that phone number is not supported.']};
             }
             return {};
         });
@@ -64,5 +65,9 @@ module.exports = {
     settingsForm: function(settings) {
         //TODO: Make the settings editable (ajax)
         return 'Phone number: <strong>' + settings.number+ '</strong>';
+    },
+    poweredBy: {
+        name: 'Bitrefill',
+        url: 'https://www.bitrefill.com/'
     }
 };

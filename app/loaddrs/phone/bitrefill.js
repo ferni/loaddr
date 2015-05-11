@@ -29,7 +29,9 @@ function makeRequest(method, path, body) {
 }
 
 exports.lookupNumber = function(number) {
-    return makeRequest('GET', 'lookup_number?number=' + number, null);
+    return makeRequest('GET', 'lookup_number?number=' + number, null).spread(function(result, body) {
+        return JSON.parse(body);
+    });
 };
 
 exports.placeOrder = function(options) {
