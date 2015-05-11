@@ -8,10 +8,10 @@ module.exports = {
             loaddr: loaddr,
             outputs: [{
                 address: loaddr.settings.destinationAddress,
-                amount: amount
+                amount: amount - wallet.fee
             }]
         }).then(function () {
-            loaddr.log('Sent funds');
+            loaddr.log('Sent funds to ' + loaddr.settings.destinationAddress);
         });
     },
     validateSettings: function (settings) {
