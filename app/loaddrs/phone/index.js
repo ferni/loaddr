@@ -6,10 +6,8 @@ var _ = require('lodash');
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
-        wallet.loadBalances([loaddr]).then(function() {
-            console.log('looking up number');
-            return bitrefill.lookupNumber(loaddr.settings.number);
-        }).spread(function(result, body) {
+        console.log('looking up number');
+        return bitrefill.lookupNumber(loaddr.settings.number).spread(function(result, body) {
             var operator = JSON.parse(body).operator;
             var maxAffordablePrice = _.chain(operator.packages)
                 .filter(function(p) {

@@ -15,7 +15,10 @@ function onAddressReceives(address, amount) {
         var loaddr = docs[0];
         loaddr.log('Received ' + amount);
         loaddr.loadPrototype();
-        return loaddr.onIncoming(amount, loaddr);
+        return wallet.loadBalances([loaddr]).then(function() {
+            return loaddr.onIncoming(amount, loaddr);
+        });
+
     }).catch(function(e) {
         console.error('Error when processing incoming funds on address ' + address);
         console.log(e.message);
