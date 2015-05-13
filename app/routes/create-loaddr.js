@@ -4,8 +4,8 @@ var db = require('../db').db;
 var loaddrs = require('../loaddrs');
 
 module.exports = function(app) {
-    app.get('/create-loaddr', isLoggedIn, function(req, res, next) {
-        var loaddrType = req.query.type,
+    app.get('/create-loaddr/:type', isLoggedIn, function(req, res, next) {
+        var loaddrType = req.param('type'),
             loaddrPrototype,
             form,
             renderObject = {};
@@ -25,8 +25,8 @@ module.exports = function(app) {
         res.render('create-loaddr', renderObject)
     });
 
-    app.post('/create-loaddr', isLoggedIn, function(req, res, next) {
-        var loaddrType = req.query.type;
+    app.post('/create-loaddr/:type', isLoggedIn, function(req, res, next) {
+        var loaddrType = req.param('type');
         var settings = req.body;
         console.log('settings:' + JSON.stringify(settings));
         var proto = loaddrs.getPrototype(loaddrType);

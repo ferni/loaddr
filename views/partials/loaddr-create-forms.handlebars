@@ -1,4 +1,39 @@
 <!-- BANK LOADER (Coinbase) CREATE FORM -->
 {{#if bank}}
-    <a href="http://coinbase.com">Connect Coinbase account</a>
+    <div class="spin">
+        <a id="connect" href="https://www.coinbase.com/oauth/authorize?response_type=code&client_id=8d9572a5813ba28235f006dbe0b81adfdbd9b6d2941b09d32bdda65313618c8b&redirect_uri=https://loaddr.herokuapp.com/create-loaddr/bank&scope=user+balance" style="display:none">
+            Link Coinbase account
+        </a>
+        <span id="connected" style="display:none">Coinbase account linked</span>
+        <input id="code-input" type="hidden" name="code" />
+    </div>
+    <script type="text/javascript" src="/js/vendor/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var submitEnabled = false,
+            $submitButton = $('button[type=submit]');
+        $submitButton.addClass('disabled');
+        $('form').on('submit',function(e) {
+            if (!submitEnabled) {
+                e.preventDefault();
+            }
+        });
+
+        function getParameterByName(name) {
+            'use strict';
+            var match = new RegExp('[?&]' + name + '=([^&]*)')
+                    .exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+        var code = getParameterByName('code');
+        if (code) {
+            $('#code-input').val(code);
+            $('#connected').show();
+            submitEnabled = true;
+            $submitButton.removeClass('disabled');
+        } else {
+            $('#connect').show();
+        }
+    });
+    </script>
 {{/if}}
