@@ -1,4 +1,5 @@
 var Promise = require('bluebird');
+var request = require('request');
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
@@ -10,7 +11,7 @@ module.exports = {
         var code = settings.code;
         if (!code) {
             return new Promise(function(resolve, reject) {
-                resolve({errors:['Something went wrong when trying to connect your coinbase account']});
+                resolve({errors:['Something went wrong when trying to connect your Coinbase account']});
             });
         }
         return request.postAsync('https://www.coinbase.com/oauth/token', {

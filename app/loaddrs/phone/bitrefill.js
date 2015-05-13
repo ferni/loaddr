@@ -1,10 +1,7 @@
 /**
  * Created by Fer on 05/05/2015.
  */
-var Promise = require('bluebird');
 var request = require("request");
-Promise.promisifyAll(request);
-
 
 var auth = {
     user: process.env.BITREFILL_KEY_ID,
