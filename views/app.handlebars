@@ -11,7 +11,11 @@
     </ul>
 </div>
 <div>
-    <h3>Save these addresses to your wallet</h3>
+    {{#if loaddrs}}
+        <h2>Save these addresses to your wallet</h2>
+    {{else}}
+        <h2>Create your first loader above</h2>
+    {{/if}}
     {{#each loaddrs}}
         {{> loaddr }}
     {{/each}}
