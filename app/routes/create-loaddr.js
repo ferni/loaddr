@@ -5,16 +5,24 @@ var loaddrs = require('../loaddrs');
 
 module.exports = function(app) {
     app.get('/create-loaddr', isLoggedIn, function(req, res, next) {
-        var loaddrType = req.query.type;
+        var loaddrType = req.query.type,
+            loaddrPrototype,
+            form,
+            renderObject = {};
         try {
-            var loaddrPrototype = loaddrs.getPrototype(loaddrType);
+            loaddrPrototype = loaddrs.getPrototype(loaddrType);
         } catch(e) {
             return next(new Error(e));
         }
-        res.render('create-loaddr', {
-            form: loaddrPrototype.createForm(),
-            user: req.user
-        });
+        form = loaddrPrototype.createForm();
+        if (form == '{external}') {
+            renderObject.externalCreateForm = true;
+            renderObject[loaddrType] = true;
+        } else {
+            renderObject.form = form;
+        }
+        renderObject.user = req.user;
+        res.render('create-loaddr', renderObject)
     });
 
     app.post('/create-loaddr', isLoggedIn, function(req, res, next) {

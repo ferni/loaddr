@@ -40,6 +40,9 @@ module.exports = {
             miner_fee_rate: fee
         };
         console.log('chain params: ' + JSON.stringify(transactionSettings));
+        //try {}
+        //TODO: fix the balance thing
+        console.warn('TODO: fix the balance thing');
         return chainWrapper.chain.transactAsync(transactionSettings).then(function() {
             p.loaddr.balance -= amount + fee;
             p.loaddr.balanceChanged();
