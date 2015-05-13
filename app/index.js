@@ -1,6 +1,7 @@
 var wallet = require('./wallet'),
     loaddrModel = require('./models/loaddr'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    Promise = require('bluebird');
 
 function onAddressReceives(address, amount) {
     //get corresponding loaddr

@@ -11,7 +11,7 @@ module.exports = {
         var code = settings.code;
         if (!code) {
             return new Promise(function(resolve, reject) {
-                resolve({errors:['Something went wrong when trying to connect your Coinbase account']});
+                resolve({errors:['Unable to connect to Coinbase']});
             });
         }
         return request.postAsync('https://www.coinbase.com/oauth/token', {
@@ -23,7 +23,13 @@ module.exports = {
                 client_secret: process.env.COINBASE_CLIENT_SECRET
             }
         }).spread(function(httpResponse, body){
-            console.log('Gotten response from Coinbase: ' + JSON.stringify(body));
+            /*
+             {"access_token":"...","token_type":"bearer","expires_in":7200,"refresh_token":"...","scope":"user balance"}"
+             */
+            if (!body.access_token) {
+                return {errors:['Unable to connect to Coinbase']}
+            }
+            console.log('Gotten response from Coinbase: ' + body);
             return {};
         });
     },
