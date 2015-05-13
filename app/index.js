@@ -15,7 +15,10 @@ function onAddressReceives(address, amount) {
         var loaddr = docs[0];
         loaddr.log('Received ' + amount);
         loaddr.loadPrototype();
-        return wallet.loadBalances([loaddr]).then(function() {
+        console.log('Waiting 3 seconds');
+        Promise.delay(3000).then(function() {
+            return wallet.loadBalances([loaddr]);
+        }).then(function() {
             return loaddr.onIncoming(amount, loaddr);
         }).then(function() {
             return loaddr.balanceChanged();
