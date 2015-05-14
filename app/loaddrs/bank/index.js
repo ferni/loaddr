@@ -10,7 +10,7 @@ module.exports = {
             apiSecret: process.env.COINBASE_CLIENT_SECRET,
             accessToken: loaddr._creator.coinbase.access_token,
             refreshToken: loaddr._creator.coinbase.refresh_token
-        });
+        });//asdf
         client.getAccounts(function(err, accounts) {
             if (err) {
                 throw err;
