@@ -51,7 +51,7 @@ module.exports = {
         });
     },
     createForm: function (user) {
-        if (user.coinbase.access_token) {
+        if (user.coinbase && user.coinbase.access_token) {
             return '<span id="connected">Coinbase account linked</span>';
         }
         return '{external}';
