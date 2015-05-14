@@ -54,7 +54,7 @@ module.exports = {
             } else {
                 user.coinbase.access_token = body.access_token;
                 user.coinbase.refresh_token = body.refresh_token;
-                return {};
+                return user.saveAsync();
             }
         });
     },
