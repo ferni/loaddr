@@ -12,6 +12,9 @@ module.exports = {
             refreshToken: loaddr._creator.coinbase.refresh_token
         });
         client.getAccounts(function(err, accounts) {
+            if (err) {
+                throw err;
+            }
             accounts.forEach(function(acct) {
                 console.log('my bal: ' + acct.balance.amount + ' for ' + acct.name);
             });
