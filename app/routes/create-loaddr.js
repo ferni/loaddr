@@ -5,7 +5,7 @@ var loaddrs = require('../loaddrs');
 
 module.exports = function(app) {
     app.get('/create-loaddr/:type', isLoggedIn, function(req, res, next) {
-        var loaddrType = req.param('type'),
+        var loaddrType = req.params.type,
             loaddrPrototype,
             form,
             renderObject = {};
@@ -14,7 +14,7 @@ module.exports = function(app) {
         } catch(e) {
             return next(new Error(e));
         }
-        form = loaddrPrototype.createForm();
+        form = loaddrPrototype.createForm(req.user);
         if (form == '{external}') {
             renderObject.externalCreateForm = true;
             renderObject[loaddrType] = true;
@@ -26,21 +26,21 @@ module.exports = function(app) {
     });
 
     app.post('/create-loaddr/:type', isLoggedIn, function(req, res, next) {
-        var loaddrType = req.param('type');
+        var loaddrType = req.params.type;
         var settings = req.body;
         console.log('settings:' + JSON.stringify(settings));
         var proto = loaddrs.getPrototype(loaddrType);
-        proto.validateSettings(settings).then(function(result) {
+        var Loaddr = db.model('Loaddr');
+        var loaddr = new Loaddr({
+            _creator: req.user._id,
+            type: loaddrType,
+            settings: settings
+        });
+        proto.validateSettings(settings, loaddr).then(function(result) {
             if (result.errors) {
                 throw result.errors.toString();
             }
         }).then(function() {
-            var Loaddr = db.model('Loaddr');
-            var loaddr = new Loaddr({
-                _creator: req.user._id,
-                type: loaddrType,
-                settings: settings
-            });
             return loaddr.saveAsync();
         }).spread(function(newLoaddr) {
             wallet.getAddress(newLoaddr._id).then(function(address) {
