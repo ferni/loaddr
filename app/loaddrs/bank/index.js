@@ -5,6 +5,11 @@ Promise.promisifyAll(coinbase);
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
+        console.log(JSON.stringify({accessToken: loaddr._creator.coinbase.access_token,
+            refreshToken: loaddr._creator.coinbase.refresh_token}));
+        return new Promise(function(resolve){
+            return resolve({});
+        });
         var client = new coinbase.Client({
             apiKey: process.env.COINBASE_CLIENT_ID,
             apiSecret: process.env.COINBASE_CLIENT_SECRET,
