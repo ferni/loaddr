@@ -36,7 +36,7 @@ module.exports = function(app) {
             type: loaddrType,
             settings: settings
         });
-        proto.validateSettings(settings, loaddr).then(function(result) {
+        proto.validateSettings(settings, req.user).then(function(result) {
             if (result.errors) {
                 throw result.errors.toString();
             }

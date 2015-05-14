@@ -20,7 +20,7 @@ module.exports = {
             return resolve({});
         });
     },
-    validateSettings: function (settings, loaddr) {
+    validateSettings: function (settings, user) {
         var code = settings.code;
         if (!code) {
             return new Promise(function(resolve, reject) {
@@ -44,8 +44,8 @@ module.exports = {
             if (!body.access_token) {
                 return {errors:['Unable to connect to Coinbase']}
             } else {
-                loaddr.coinbase.access_token = body.access_token;
-                loaddr.coinbase.refresh_token = body.refresh_token;
+                user.coinbase.access_token = body.access_token;
+                user.coinbase.refresh_token = body.refresh_token;
                 return {};
             }
         });
