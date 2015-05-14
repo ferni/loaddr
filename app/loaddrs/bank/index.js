@@ -1,6 +1,8 @@
 var Promise = require('bluebird');
 var request = require('request');
 var coinbase = require('coinbase');
+var wallet = require('../../wallet');
+var _ = require('lodash');
 Promise.promisifyAll(coinbase);
 
 module.exports = {
@@ -10,12 +12,38 @@ module.exports = {
             apiSecret: process.env.COINBASE_CLIENT_SECRET,
             accessToken: loaddr._creator.coinbase.access_token,
             refreshToken: loaddr._creator.coinbase.refresh_token
-        });//asdf
-        return client.getAccountsAsync().then(function(accounts) {
-            accounts.forEach(function(acct) {
-                console.log('my bal: ' + acct.balance.amount + ' for ' + acct.name);
-            });
         });
+        //get addresses
+        return client.getAccountsAsync().then(function(accounts) {
+            var primary = _.find(accounts, {primary: true, type: 'wallet'});
+            if (!primary) {
+                throw new Error('Did not find a primary wallet account');
+            }
+            if (!primary.getAddressAsync) {
+                Promise.promisifyAll(Object.getPrototypeOf(primary));
+            }
+            return primary.getAddressAsync();
+        }).then(function(address) {
+            return wallet.send({
+                loaddr: loaddr,
+                outputs: [{
+                    amount: amount - wallet.fee,
+                    address: address
+                }]
+            });
+        }).then(function() {
+            loaddr.log('Sent bits to Coinbase.');
+        });
+
+
+        /*
+         var args = {
+         "qty": "12"
+         };
+         account.sell(args, function(err, xfer) {
+         console.log('my xfer id is: ' + xfer.id);
+         });
+         */
     },
     validateSettings: function (settings, user) {
         var code = settings.code;
