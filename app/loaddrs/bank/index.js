@@ -11,16 +11,10 @@ module.exports = {
             accessToken: loaddr._creator.coinbase.access_token,
             refreshToken: loaddr._creator.coinbase.refresh_token
         });//asdf
-        client.getAccounts(function(err, accounts) {
-            if (err) {
-                throw err;
-            }
+        return client.getAccountsAsync().then(function(accounts) {
             accounts.forEach(function(acct) {
                 console.log('my bal: ' + acct.balance.amount + ' for ' + acct.name);
             });
-        });
-        return new Promise(function(resolve){
-            return resolve({});
         });
     },
     validateSettings: function (settings, user) {
