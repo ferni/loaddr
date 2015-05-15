@@ -24,10 +24,6 @@ function onAddressReceives(address, amount) {
         }).then(function() {
             return loaddr.balanceChanged();
         });
-
-    }).catch(function(e) {
-        console.error('Error when processing incoming funds on address ' + address);
-        console.log(e.message);
     });
 }
 
