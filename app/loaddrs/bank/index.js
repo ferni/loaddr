@@ -3,7 +3,6 @@ var request = require('request');
 var coinbaseWrapper = require('./coinbase');
 var wallet = require('../../wallet');
 var _ = require('lodash');
-var bitcore = require('bitcore');
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
