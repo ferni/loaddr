@@ -5,6 +5,16 @@ var wallet = require('../../wallet');
 var _ = require('lodash');
 Promise.promisifyAll(coinbase);
 
+//coinbase errors =
+// 'ExpiredAccessToken':
+// use the client.refresh API to get a new access_token
+//'InvalidAccessToken':
+//'AuthenticationError'
+
+var ExpiredAccessToken = function(e) {
+    return e.type === 'ExpiredAccessToken';
+};
+
 module.exports = {
     onIncoming: function (amount, loaddr) {
         var client = new coinbase.Client({
@@ -14,7 +24,20 @@ module.exports = {
             refreshToken: loaddr._creator.coinbase.refresh_token
         });
         //get addresses
-        return client.getAccountsAsync().then(function(accounts) {
+        console.log('getting accounts:');
+        return client.getAccountsAsync().catch(ExpiredAccessToken, function() {
+            console.log('expired token, refreshing...');
+           return client.refreshAsync().then(function(result) {
+               console.log('new token: ' + result.access_token);
+               loaddr._creator.coinbase.access_token = result.access_token;
+               loaddr._creator.coinbase.refresh_token = result.refresh_token;
+               return loaddr.saveAsync();
+           }).then(function() {
+               console.log('new token successfully saved');
+               return client.getAccountsAsync();
+           });
+        }).then(function(accounts) {
+            console.log('gotten accounts');
             var primary = _.find(accounts, {primary: true, type: 'wallet'});
             if (!primary) {
                 throw new Error('Did not find a primary wallet account');
@@ -22,8 +45,11 @@ module.exports = {
             if (!primary.getAddressAsync) {
                 Promise.promisifyAll(Object.getPrototypeOf(primary));
             }
+            console.log('getting primary address:');
+
             return primary.getAddressAsync();
         }).then(function(address) {
+            console.log('address found:' + address);
             return wallet.send({
                 loaddr: loaddr,
                 outputs: [{
