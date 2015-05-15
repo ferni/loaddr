@@ -36,7 +36,7 @@ WrappedClient.prototype.refreshToken = function() {
         console.log('new token: ' + result.access_token);
         loaddr._creator.coinbase.access_token = result.access_token;
         loaddr._creator.coinbase.refresh_token = result.refresh_token;
-        return loaddr.saveAsync();
+        return loaddr._creator.saveAsync();
     }).then(function() {
         console.log('new token successfully saved');
     });
