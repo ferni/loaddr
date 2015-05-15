@@ -72,6 +72,12 @@ module.exports = {
          */
     },
     validateSettings: function (settings, user) {
+        if(user.coinbase.access_token) {
+            //already linked coinbase
+            return new Promise(function(resolve, reject) {
+                resolve({});
+            });
+        }
         var code = settings.code;
         if (!code) {
             return new Promise(function(resolve, reject) {
