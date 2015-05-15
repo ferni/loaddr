@@ -3,30 +3,32 @@ var request = require('request');
 var coinbaseWrapper = require('./coinbase');
 var wallet = require('../../wallet');
 var _ = require('lodash');
+var bitcore = require('bitcore');
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
+        var available = amount - wallet.fee;
         var client = coinbaseWrapper.createClient(loaddr);
-        client.getDepositAddress().then(function(address) {
+        client.getDepositAddress().spread(function(address, account) {
             return wallet.send({
                 loaddr: loaddr,
                 outputs: [{
-                    amount: amount - wallet.fee,
+                    amount: available,
                     address: address
                 }]
+            }).then(function() {
+                return account;
             });
-        }).then(function() {
+        }).then(function(account) {
             loaddr.log('Sent bits to Coinbase.');
+            var sellInBTC = bitcore.fromSatoshis(available).toBTC();
+            loaddr.log('Selling ' + sellInBTC + ' BTC...');
+            return account.sellAsync({
+                "qty": sellInBTC
+            });
+        }).then(function(xfer) {
+            loaddr.log('Sold. Transfer id: <strong>' + xfer.id + '</strong>');
         });
-
-        /*
-         var args = {
-         "qty": "12"
-         };
-         account.sell(args, function(err, xfer) {
-         console.log('my xfer id is: ' + xfer.id);
-         });
-         */
     },
     validateSettings: function (settings, user) {
         if(user.coinbase.access_token) {

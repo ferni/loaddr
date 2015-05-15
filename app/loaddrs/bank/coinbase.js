@@ -62,13 +62,13 @@ WrappedClient.prototype.getDepositAddress = function() {
             Promise.promisifyAll(Object.getPrototypeOf(primary));
         }
         console.log('getting primary address:');
-        return primary.getAddressAsync();
-    }).then(function(response) {
-        if (!response.success) {
-            throw new Error('Something went wrong getting the deposit address:'
-            + JSON.stringify(response));
-        }
-        console.log('address found:' + response.address);
-        return response.address;
+        return primary.getAddressAsync().then(function(response) {
+            if (!response.success) {
+                throw new Error('Something went wrong getting the deposit address:'
+                + JSON.stringify(response));
+            }
+            console.log('address found:' + response.address);
+            return [response.address, primary];
+        });
     });
 };
