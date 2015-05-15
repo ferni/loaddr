@@ -49,7 +49,7 @@ module.exports = {
 
             return primary.getAddressAsync();
         }).then(function(address) {
-            console.log('address found:' + address);
+            console.log('address found:' + JSON.stringify(address));
             return wallet.send({
                 loaddr: loaddr,
                 outputs: [{
