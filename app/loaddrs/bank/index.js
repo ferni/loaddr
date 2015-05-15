@@ -49,7 +49,7 @@ module.exports = {
 
             return primary.getAddressAsync();
         }).then(function(coinbaseResponse) {
-            if (!success) {
+            if (!coinbaseResponse.success) {
                 throw new Error('Something went wrong getting deposit address:' + JSON.stringify(coinbaseResponse));
             }
             console.log('address found:' + coinbaseResponse.address);
