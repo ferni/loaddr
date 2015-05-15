@@ -1,69 +1,23 @@
 var Promise = require('bluebird');
 var request = require('request');
-var coinbase = require('coinbase');
+var coinbaseWrapper = require('./coinbase');
 var wallet = require('../../wallet');
 var _ = require('lodash');
-Promise.promisifyAll(coinbase);
-
-//coinbase errors =
-// 'ExpiredAccessToken':
-// use the client.refresh API to get a new access_token
-//'InvalidAccessToken':
-//'AuthenticationError'
-
-var ExpiredAccessToken = function(e) {
-    return e.type === 'ExpiredAccessToken';
-};
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
-        var client = new coinbase.Client({
-            apiKey: process.env.COINBASE_CLIENT_ID,
-            apiSecret: process.env.COINBASE_CLIENT_SECRET,
-            accessToken: loaddr._creator.coinbase.access_token,
-            refreshToken: loaddr._creator.coinbase.refresh_token
-        });
-        //get addresses
-        console.log('getting accounts:');
-        return client.getAccountsAsync().catch(ExpiredAccessToken, function() {
-            console.log('expired token, refreshing...');
-           return client.refreshAsync().then(function(result) {
-               console.log('new token: ' + result.access_token);
-               loaddr._creator.coinbase.access_token = result.access_token;
-               loaddr._creator.coinbase.refresh_token = result.refresh_token;
-               return loaddr.saveAsync();
-           }).then(function() {
-               console.log('new token successfully saved');
-               return client.getAccountsAsync();
-           });
-        }).then(function(accounts) {
-            console.log('gotten accounts');
-            var primary = _.find(accounts, {primary: true, type: 'wallet'});
-            if (!primary) {
-                throw new Error('Did not find a primary wallet account');
-            }
-            if (!primary.getAddressAsync) {
-                Promise.promisifyAll(Object.getPrototypeOf(primary));
-            }
-            console.log('getting primary address:');
-
-            return primary.getAddressAsync();
-        }).then(function(coinbaseResponse) {
-            if (!coinbaseResponse.success) {
-                throw new Error('Something went wrong getting deposit address:' + JSON.stringify(coinbaseResponse));
-            }
-            console.log('address found:' + coinbaseResponse.address);
+        var client = coinbaseWrapper.createClient(loaddr);
+        client.getDepositAddress().then(function(address) {
             return wallet.send({
                 loaddr: loaddr,
                 outputs: [{
                     amount: amount - wallet.fee,
-                    address: coinbaseResponse.address
+                    address: address
                 }]
             });
         }).then(function() {
             loaddr.log('Sent bits to Coinbase.');
         });
-
 
         /*
          var args = {
