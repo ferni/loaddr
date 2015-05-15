@@ -21,7 +21,7 @@ module.exports = {
             });
         }).then(function(account) {
             loaddr.log('Sent bits to Coinbase.');
-            var sellInBTC = bitcore.fromSatoshis(available).toBTC();
+            var sellInBTC = bitcore.Unit.fromSatoshis(available).toBTC();
             loaddr.log('Selling ' + sellInBTC + ' BTC...');
             return account.sellAsync({
                 "qty": sellInBTC
