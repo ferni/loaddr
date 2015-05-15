@@ -17,17 +17,11 @@ module.exports = {
                     address: address
                 }]
             }).then(function() {
+                loaddr.log('Sent bits to Coinbase.');
                 return account;
             });
         }).then(function(account) {
-            loaddr.log('Sent bits to Coinbase.');
-            var sellInBTC = bitcore.Unit.fromSatoshis(available).toBTC();
-            loaddr.log('Selling ' + sellInBTC + ' BTC...');
-            return account.sellAsync({
-                "qty": sellInBTC
-            }).catch(function(e) {
-                throw new Error('Unable to sell:' + JSON.stringify(e));
-            });
+            return client.sell(account, available, {retry: 3});
         }).then(function(xfer) {
             loaddr.log('Sold. Transfer id: <strong>' + xfer.id + '</strong>');
         });

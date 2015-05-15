@@ -5,12 +5,16 @@ var Promise = require('bluebird');
 var coinbase = require('coinbase');
 var _ = require('lodash');
 Promise.promisifyAll(coinbase);
-
+var bitcore = require('bitcore');
 //--- coinbase errors ---
 // 'ExpiredAccessToken':
 // use the client.refresh API to get a new access_token
 //'InvalidAccessToken':
 //'AuthenticationError'
+
+
+var sellRetryMS = 36500;
+//var sellRetryMS = 3000;
 
 var ExpiredAccessToken = function(e) {
     return e.type === 'ExpiredAccessToken';
@@ -70,5 +74,28 @@ WrappedClient.prototype.getDepositAddress = function() {
             console.log('address found:' + response.address);
             return [response.address, primary];
         });
+    });
+};
+
+WrappedClient.prototype.sell = function(account, satoshis, retryOptions) {
+    var self = this,
+        sellInBTC = bitcore.Unit.fromSatoshis(satoshis).toBTC();
+    if (retryOptions) {
+        retryOptions.retry--;
+    }
+    self.loaddr.log('Selling ' + sellInBTC + ' BTC...');
+    return account.sellAsync({
+        "qty": sellInBTC
+    }).catch(function(e) {
+        //User is unable to sell (level 0)
+        console.log('Unable to sell:' + e.cause.response.body);
+        if (retryOptions && retryOptions.retry > -1) {
+            console.log('Retrying in ' + sellRetryMS + ' ms.');
+            return Promise.delay(sellRetryMS).then(function() {
+                return self.sell(account, satoshis, retryOptions);
+            });
+        } else {
+            throw new Error(e);
+        }
     });
 };
