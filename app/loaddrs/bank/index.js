@@ -25,6 +25,8 @@ module.exports = {
             loaddr.log('Selling ' + sellInBTC + ' BTC...');
             return account.sellAsync({
                 "qty": sellInBTC
+            }).catch(function(e) {
+                throw new Error('Unable to sell:' + JSON.stringify(e));
             });
         }).then(function(xfer) {
             loaddr.log('Sold. Transfer id: <strong>' + xfer.id + '</strong>');
