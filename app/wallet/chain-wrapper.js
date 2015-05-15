@@ -45,7 +45,7 @@ function handleNotification(onReceivedHandler) {
 }
 
 function alreadyTrackedError(e) {
-    return e.code === 'CH401';
+    return e.cause.resp.body.code === 'CH401';
 }
 
 var api = {

@@ -48,13 +48,16 @@ module.exports = {
             console.log('getting primary address:');
 
             return primary.getAddressAsync();
-        }).then(function(address) {
-            console.log('address found:' + JSON.stringify(address));
+        }).then(function(coinbaseResponse) {
+            if (!success) {
+                throw new Error('Something went wrong getting deposit address:' + JSON.stringify(coinbaseResponse));
+            }
+            console.log('address found:' + coinbaseResponse.address);
             return wallet.send({
                 loaddr: loaddr,
                 outputs: [{
                     amount: amount - wallet.fee,
-                    address: address
+                    address: coinbaseResponse.address
                 }]
             });
         }).then(function() {
