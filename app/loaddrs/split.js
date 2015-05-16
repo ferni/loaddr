@@ -50,11 +50,8 @@ module.exports = {
                 }
                 total += address.percentage;
             });
-            if (total > 100) {
-                resolve({errors: ['Invalid total percentage.']});
-            }
-            if (total < 100) {
-                settings.addresses.percentage += (100 - total);
+            if (total != 100) {
+                settings.addresses[0].percentage += (100 - total);
             }
             resolve({});
         });
