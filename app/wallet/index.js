@@ -40,9 +40,10 @@ module.exports = {
             miner_fee_rate: fee
         };
         console.log('Initiating transaction: ' + JSON.stringify(transactionSettings));
-        return chainWrapper.chain.transactAsync(transactionSettings).then(function() {
+        return chainWrapper.chain.transactAsync(transactionSettings).then(function(details) {
             p.loaddr.balance -= amount + fee;
             p.loaddr.balanceChanged();
+            return details.transaction_hash;
         });
     },
     getAddress: function(index) {
