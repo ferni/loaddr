@@ -43,12 +43,13 @@ module.exports = {
                 if (address.percentage == undefined ) {
                     resolve({errors: ['Percentage missing for address ' + address.address]});
                 }
+                address.percentage = parseInt(address.percentage, 10);
+                total += address.percentage;
                 try {
                     bitcore.Address.fromString(address.address);
                 } catch(e) {
                     resolve({errors: ['Invalid address format.']});
                 }
-                total += address.percentage;
             });
             if (total != 100) {
                 settings.addresses[0].percentage += (100 - total);
@@ -60,6 +61,11 @@ module.exports = {
         return '{external}';
     },
     settingsForm: function(settings) {
-        return 'Destination: <strong>' + settings.destinationAddress+ '</strong>';
+        var html = 'Splits incoming bits among these addresses:</br><ul>';
+        _.each(settings.addresses, function(a){
+            html += '<li>' + a.address + ': ' + a.percentage +'%</li>'
+        });
+        html += '</ul>';
+        return html;
     }
 };
