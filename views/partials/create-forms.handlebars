@@ -56,73 +56,90 @@
         }
 
     </style>
-    <ul id="sliders">
-        <li>
-            <label>Address 1</label><input type="text" name="addresses[0][address]"/>
-            <div class="slider">70</div>
-            <input type="number" name="addresses[0][percentage]" class="value" value="70" readonly/>%
-        </li>
-        <li>
-            <label>Address 2</label><input type="text" name="addresses[1][address]"/>
-            <div class="slider">30</div>
-            <input type="number" name="addresses[1][percentage]" class="value" value="30" readonly/>%
-        </li>
-    </ul>
+    <ul id="sliders"></ul>
+    <button id="add-address" type="button">Add address</button>
     <script src="/js/vendor/jquery-1.9.1.js"></script>
     <script src="/js/vendor/jquery-ui-1.9.2.custom.js"></script>
     <script src="/js/vendor/jquery-ui-1.9.2.custom.js"></script>
     <script>
     $(function() {
-        var sliders = $("#sliders .slider");
-        var availableTotal = 100;
-
-        sliders.each(function () {
-            var init_value = parseInt($(this).text());
-
-            $(this).siblings('.value').val(init_value);
-
-            $(this).empty().slider({
-                value: init_value,
-                min: 0,
-                max: availableTotal,
-                range: "max",
-                step: 1,
-                animate: 0,
-                slide: function (event, ui) {
-                    // Update display to current value
-                    $(this).siblings('.value').val(ui.value);
-
-                    // Get current total
-                    var total = 0;
-
-                    sliders.not(this).each(function () {
-                        total += $(this).slider("option", "value");
-                    });
-
-                    // Need to do this because apparently jQ UI
-                    // does not update value until this event completes
-                    total += ui.value;
-
-                    var delta = availableTotal - total;
-
-                    // Update each slider
-                    sliders.not(this).each(function () {
-                        var t = $(this),
-                                value = t.slider("option", "value");
-
-                        var new_value = value + (delta / 4);
-
-                        if (new_value < 0 || ui.value == 100)
-                            new_value = 0;
-                        if (new_value > 100)
-                            new_value = 100;
-
-                        t.siblings('.value').val(new_value);
-                        t.slider('value', new_value);
-                    });
-                }
+        function getCurrentState() {
+            return $('#sliders li').map(function() {
+                return {
+                    address: $('input[type=text]' ,this).val(),
+                    percentage: $('input[type=number]', this).val()
+                };
+            }).get();
+        }
+        function initSliders() {
+            var sliders = $("#sliders .slider");
+            var availableTotal = 100;
+            sliders.each(function () {
+                var init_value = parseInt($(this).text());
+                $(this).siblings('.value').val(init_value);
+                $(this).empty().slider({
+                    value: init_value,
+                    min: 0,
+                    max: availableTotal,
+                    range: "max",
+                    step: 1,
+                    animate: 0,
+                    slide: function (event, ui) {
+                        // Update display to current value
+                        $(this).siblings('.value').val(ui.value);
+                        // Get current total
+                        var total = 0;
+                        sliders.not(this).each(function () {
+                            total += $(this).slider("option", "value");
+                        });
+                        // Need to do this because apparently jQ UI
+                        // does not update value until this event completes
+                        total += ui.value;
+                        var delta = availableTotal - total;
+                        // Update each slider
+                        sliders.not(this).each(function () {
+                            var t = $(this),
+                                    value = t.slider("option", "value");
+                            var new_value = value + (delta / 4);
+                            if (new_value < 0 || ui.value == 100)
+                                new_value = 0;
+                            if (new_value > 100)
+                                new_value = 100;
+                            t.siblings('.value').val(new_value);
+                            t.slider('value', new_value);
+                        });
+                    }
+                });
             });
+        }
+
+        $('#add-address').click(function(e) {
+            e.preventDefault();
+            var state = getCurrentState();
+            state.push({address: '', percentage: 0});
+            render(state);
         });
+
+        function getSliderHtml(i, address, percentage) {
+            return '<li>' +
+                    '<label>Address ' + (i + 1) + '</label><input type="text" name="addresses[' + i + '][address]" value="' + address + '"/>' +
+                    '<div class="slider">' + percentage + '</div>' +
+                    '<input type="number" name="addresses[' + i + '][percentage]" class="value" value="' + percentage + '" readonly/>%' +
+                    '</li>';
+        }
+
+        function render(state) {
+            var html = '';
+            $.each(state, function( index, value ) {
+                html += getSliderHtml(index, value.address, value.percentage);
+            });
+            $('#sliders').html(html);
+            initSliders();
+        }
+
+        render([
+            {address: '', percentage: 50}, {address: '', percentage: 50}
+        ]);
     });
     </script>
 {{/if}}
