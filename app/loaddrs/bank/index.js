@@ -20,7 +20,7 @@ module.exports = {
                 return account;
             });
         }).then(function(account) {
-            return client.sell(account, available, {retry: 3});
+            return client.sell(account, available, {retry: 7});
         }).then(function(xfer) {
             loaddr.log('Sold. Transfer id: <strong>' + xfer.id + '</strong>');
         });
