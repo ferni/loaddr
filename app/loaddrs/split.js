@@ -5,19 +5,17 @@ var wallet = require('../wallet'),
     util = require('../util');
 module.exports = {
     onIncoming: function (amount, loaddr) {
+        amount = amount - wallet.fee;
         var outputs = _.map(loaddr.settings.addresses, function(a) {
-            var amountToLog = amount * a.percentage / 100;
-            console.log(amountToLog);
             return {
                 address: a.address,
-                amount: amountToLog
+                amount: Math.floor(amount * a.percentage / 100)
             }
         });
         var total = _.sum(outputs, 'amount');
         console.log('total ' + total);
         if (total < amount) {
             outputs[0].amount += (amount - total);
-            outputs[0].amount -= wallet.fee;
         }
         console.log('outputs:');
         outputs.forEach(function(o) {
