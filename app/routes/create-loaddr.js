@@ -22,6 +22,7 @@ module.exports = function(app) {
             renderObject.form = form;
         }
         renderObject.user = req.user;
+        renderObject.createError = req.flash('createError');
         res.render('create-loaddr', renderObject)
     });
 
@@ -52,10 +53,12 @@ module.exports = function(app) {
             }).catch(function(e) {
                 console.error('Error:' + e.message);
                 newLoaddr.remove();
-                next(e);
+                req.flash('createError', e);
+                res.redirect('/create-loaddr/' + loaddrType);
             });
         }).catch(function(e) {
-            next(e);
+            req.flash('createError', e);
+            res.redirect('/create-loaddr/' + loaddrType);
         });
     });
 };
