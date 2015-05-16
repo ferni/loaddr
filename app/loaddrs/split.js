@@ -1,7 +1,7 @@
 var wallet = require('../wallet');
 var Promise = require('bluebird');
 var bitcore = require('bitcore');
-
+var _ = require('lodash');
 module.exports = {
     onIncoming: function (amount, loaddr) {
         return wallet.send({
@@ -16,23 +16,28 @@ module.exports = {
     },
     validateSettings: function (settings) {
         return new Promise(function(resolve, reject){
-            if(settings.destinationAddress) {
+            var total = 0;
+            if (!settings.addresses) {
+                resolve({errors: ['No addresses set.']});
+            }
+            settings.addresses.forEach(function(address) {
                 try {
-                    bitcore.Address.fromString(settings.destinationAddress);
-                    resolve({});
+                    bitcore.Address.fromString(address.address);
                 } catch(e) {
                     resolve({errors: ['Invalid address format.']});
                 }
-            } else {
-                resolve({errors: ['Please enter a bitcoin address to redirect the funds to.']});
+                total += address.percentage;
+            });
+            if (total > 100) {
+                resolve({errors: ['Invalid total percentage.']});
             }
+            resolve({});
         });
     },
     createForm: function () {
         return '{external}';
     },
     settingsForm: function(settings) {
-        //TODO: Make the settings editable (ajax)
         return 'Destination: <strong>' + settings.destinationAddress+ '</strong>';
     }
 };
