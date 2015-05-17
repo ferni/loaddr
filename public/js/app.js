@@ -38,6 +38,9 @@
     $('.close-log').click(function() {
         $(this).parent().hide();
     });
+    $('#new-button').click(function() {
+        $('#new-panel').toggle();
+    });
 
     new SimpleTabs(document.getElementById('loaddr-types'));
 }());

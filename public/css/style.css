@@ -34,3 +34,8 @@
 .last-log {
     background-color: gray;
 }
+
+#new-panel {
+    display: none;
+
+}
