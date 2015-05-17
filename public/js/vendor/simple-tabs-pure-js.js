@@ -7,7 +7,7 @@ var SimpleTabs = function (elem) {
         this.tab; //element
         this.pane; //element
         this.setClick = function () {
-            self.tab.addEventListener('click', self.showThisTab)
+            self.tab.addEventListener('mouseover', self.showThisTab)
         };
         
         this.showThisTab = function () {
