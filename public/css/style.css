@@ -15,8 +15,22 @@
 
 .loaddr {
     border: 1px solid #484848;
+    position: relative;
 }
 
 .disabled {
     opacity: 0.4;
+}
+
+.log {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 400px;
+    border: 1px solid black;
+    z-index: 10;
+}
+
+.last-log {
+    background-color: gray;
 }

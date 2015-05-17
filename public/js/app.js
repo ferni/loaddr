@@ -21,10 +21,21 @@
     //SOCKET.IO
     socket.on('log', function (data) {
         console.log('received data:' + data);
-        $('#' + data.address).find('.log').append(data.message);
+        var html = '<li>' + data.message + '</li>';
+        var loaddr = $('#' + data.address);
+        loaddr.find('.log ul').append(html);
+        loaddr.find('.last-log').html(html);
     });
 
     socket.on('update balance', function(data) {
         $('#' + data.address).find('.balance').html(data.balance);
+    });
+
+    //INTERACTION
+    $('.last-log').click(function() {
+        $(this).parent().find('.log').show();
+    });
+    $('.close-log').click(function() {
+        $(this).parent().hide();
     })
 }());

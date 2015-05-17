@@ -37,7 +37,14 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main',
+    helpers: {
+        last: function(array) {
+            return array[array.length - 1];
+        }
+    }
+}));
 app.set('view engine', 'handlebars'); // set up handlebars for templating
 
 // required for passport
