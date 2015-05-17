@@ -7,13 +7,14 @@
     top: 5px;
 }
 
-.loaddr-type {
-    width: 160px;
+.balance {
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
 }
 
-.address-container {
-    display: inline;
-    width: 400px;
+.loaddr-type {
+    width: 160px;
 }
 
 .loaddr {
@@ -21,6 +22,7 @@
     position: relative;
     margin: 15px auto;
     width: 650px;
+    min-height: 170px;
 }
 
 .disabled {
