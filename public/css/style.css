@@ -40,6 +40,9 @@
 
 .last-log {
     background-color: gray;
+    position: absolute;
+    bottom: 6px;
+    left: 20px;
 }
 
 #new-panel {
@@ -52,10 +55,13 @@
     text-transform: capitalize;
 }
 
-.address {
-    margin: 0 auto;
-}
-
 .description {
     display: none;
+}
+
+.address {
+    position: absolute;
+    font-size: large;
+    top: 50px;
+    left: 50px;
 }
