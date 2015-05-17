@@ -21,10 +21,9 @@
     //SOCKET.IO
     socket.on('log', function (data) {
         console.log('received data:' + data);
-        var html = '<li>' + data.message + '</li>';
         var loaddr = $('#' + data.address);
-        loaddr.find('.log ul').append(html);
-        loaddr.find('.last-log').html(html);
+        loaddr.find('.log ul').append('<li>' + data.message + '</li>');
+        loaddr.find('.last-log').html(data.message);
     });
 
     socket.on('update balance', function(data) {
