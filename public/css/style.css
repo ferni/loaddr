@@ -46,3 +46,12 @@
     display: none;
 
 }
+
+.loaddr-name {
+    font-size: large;
+    text-transform: capitalize;
+}
+
+.address {
+    margin: 0 auto;
+}

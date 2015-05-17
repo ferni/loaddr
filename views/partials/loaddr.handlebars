@@ -1,5 +1,5 @@
 <div class="loaddr" id="{{address}}">
-   <h2 class="loaddr-name">{{type}} loader</h2>
+   <label class="loaddr-name">{{type}}</label>
     <strong class="address">{{address}}</strong>
 
     <div class="description">
@@ -14,6 +14,6 @@
         <button class="close-log">Close</button>
     </div>
     <span class="last-log">{{{last logs}}}</span>
-        <div class="qrcode">{{address}}</div>
-        <label class="balance"><strong>{{balance}}</strong> <a href="/withdraw?loaddr={{_id}}">Withdraw</a></label>
+    <div class="qrcode">{{address}}</div>
+    <label class="balance"><strong>{{balance}}</strong> <a href="/withdraw?loaddr={{_id}}">Withdraw</a></label>
 </div>
