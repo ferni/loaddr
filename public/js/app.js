@@ -40,6 +40,8 @@
     $('#new-button').click(function() {
         $('#new-panel').toggle();
     });
-
+    $('.view-settings').click(function () {
+        $(this).parent().find('.description').toggle();
+    });
     new SimpleTabs(document.getElementById('loaddr-types'));
 }());
