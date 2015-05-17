@@ -1,11 +1,16 @@
 <h2>loaddrs</h2>
 <div>
-    <h3>Create new</h3>
-    <ul>
-        <li><a href="/create-loaddr/phone">Phone loader</a></li>
-        <li><a href="/create-loaddr/bank">Bank loader</a></li>
-        <li><a href="/create-loaddr/split">Split loader</a></li>
+    <button>+ Add new</button>
+    <ul id="loaddr-types" class="simple-tabs">
+        <li class="phone active">asdf<a href="/create-loaddr/phone">Phone loader</a></li>
+        <li class="bank">asfd<a href="/create-loaddr/bank">Bank loader</a></li>
+        <li class="split">asfd<a href="/create-loaddr/split">Split loader</a></li>
     </ul>
+    <div id="type-descriptions">
+        <div class="tab-page active-page" id="phone">asf</div>
+        <div class="tab-page" id="bank">2</div>
+        <div class="tab-page" id="split">3</div>
+    </div>
 </div>
 <div>
     {{#if loaddrs}}
@@ -21,4 +26,5 @@
 <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
 {{> init-socket }}
 <script type="text/javascript" src="js/vendor/qrcode.js"></script>
+<script type="text/javascript" src="js/vendor/simple-tabs-pure-js.js"></script>
 <script type="text/javascript" src="js/app.js"></script>

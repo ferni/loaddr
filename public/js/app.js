@@ -37,5 +37,7 @@
     });
     $('.close-log').click(function() {
         $(this).parent().hide();
-    })
+    });
+
+    new SimpleTabs(document.getElementById('loaddr-types'));
 }());
