@@ -2,14 +2,24 @@
 <div>
     <button>+ Add new</button>
     <ul id="loaddr-types" class="simple-tabs">
-        <li class="phone active">asdf<a href="/create-loaddr/phone">Phone loader</a></li>
-        <li class="bank">asfd<a href="/create-loaddr/bank">Bank loader</a></li>
-        <li class="split">asfd<a href="/create-loaddr/split">Split loader</a></li>
+        <li class="phone active"><a href="/create-loaddr/phone">Phone loader</a></li>
+        <li class="bank"><a href="/create-loaddr/bank">Bank loader</a></li>
+        <li class="split"><a href="/create-loaddr/split">Split loader</a></li>
     </ul>
     <div id="type-descriptions">
-        <div class="tab-page active-page" id="phone">asf</div>
-        <div class="tab-page" id="bank">2</div>
-        <div class="tab-page" id="split">3</div>
+        <div class="tab-page active-page" id="phone">
+            This loader top ups your phone.
+            When it receives bits, it looks for a top up package in <a href="https://www.bitrefill.com/">Bitrefill</a> (the biggest it can afford) and buys it for you.
+            The remaining bits will remain in the loader for the next top up, or you can withdraw them back later.
+        </div>
+        <div class="tab-page" id="bank">
+            This loader requires a <a href="http://coinbase.com">Coinbase</a> account with connected bank.
+            When it receives bits, it deposits them in your account and sells them.
+        </div>
+        <div class="tab-page" id="split">
+            This loader splits incoming funds according to a percentage. E.g: 10%: phone top up, 40%: bank, 50%: cold storage. (Hint: use other loaders in the address fields).
+            More loaders coming soon: Altcoin, Steam, Play Store.
+        </div>
     </div>
 </div>
 <div>
