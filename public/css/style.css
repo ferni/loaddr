@@ -2,6 +2,9 @@
     padding: 5px;
     background-color: white;
     width: 160px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }
 
 .loaddr-type {
@@ -16,6 +19,8 @@
 .loaddr {
     border: 1px solid #484848;
     position: relative;
+    margin: 15px auto;
+    width: 650px;
 }
 
 .disabled {
