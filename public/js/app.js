@@ -12,7 +12,7 @@
             text: address,
             width: 128,
             height: 128,
-            colorDark : "#000000",
+            colorDark : "#1D6B73",
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.M
         });
