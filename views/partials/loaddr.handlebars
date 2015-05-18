@@ -1,7 +1,6 @@
-<div class="loaddr" id="{{address}}">
-   <label class="loaddr-name">{{type}} loader</label><span class="view-settings btn btn-default">view settings</span>
-    <strong class="address">{{address}}</strong>
-
+<div class="panel panel-default">
+<div class="loaddr panel-body" id="{{address}}">
+    <label class="loaddr-name">{{type}} loader</label><span class="view-settings btn btn-default">view settings</span>
     <div class="description">
         {{{settingsForm}}}
         <button class="close-button btn btn-turquesa">Close</button>
@@ -15,6 +14,8 @@
         <button class="close-button btn btn-turquesa">Close</button>
     </div>
     <div class="last-log-container"><span class="glyphicon glyphicon-list-alt"></span><div class="last-log round-highlight">{{{last logs}}}</div></div>
+    <div class="address">{{address}}</div>
     <div class="qrcode">{{address}}</div>
     <label class="balance-container"><strong class="balance">{{bits balance}}</strong> <a href="/withdraw?loaddr={{_id}}">Withdraw</a></label>
+</div>
 </div>
