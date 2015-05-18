@@ -1,11 +1,13 @@
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3">
-    <div>{{createError}}</div>
 
-    <form method="post" class="form-horizontal">
+        <form method="post" class="form-horizontal">
         <fieldset>
-            <legend>New {{type}} loader</legend>
-        {{#if externalCreateForm}}
+           <legend>New {{type}} loader</legend>
+            {{#if createError}}
+                <div class="alert alert-danger">{{createError}}</div>
+            {{/if}}
+                {{#if externalCreateForm}}
             {{> create-forms }}
         {{else}}
             {{{form}}}
