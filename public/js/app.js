@@ -31,7 +31,7 @@
     });
 
     //INTERACTION
-    $('.last-log').click(function() {
+    $('.last-log-container').click(function() {
         $(this).parent().find('.log').show();
     });
     $('.close-log').click(function() {
