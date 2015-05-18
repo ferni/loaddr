@@ -65,3 +65,9 @@
     top: 50px;
     left: 50px;
 }
+
+.round-highlight {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}

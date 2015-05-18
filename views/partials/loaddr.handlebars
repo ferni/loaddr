@@ -1,5 +1,5 @@
 <div class="loaddr" id="{{address}}">
-   <label class="loaddr-name">{{type}} </label><label class="view-settings glyphicon glyphicon-cog" data-toggle="tooltip" title="View settings"></label>
+   <label class="loaddr-name">{{type}} </label><label class="view-settings round-highlight">view settings</label>
     <strong class="address">{{address}}</strong>
 
     <div class="description">
@@ -13,7 +13,7 @@
         </ul>
         <button class="close-log">Close</button>
     </div>
-    <span class="last-log">{{{last logs}}}</span>
+    <span class="last-log round-highlight">{{{last logs}}}</span>
     <div class="qrcode">{{address}}</div>
     <label class="balance"><strong>{{balance}}</strong> <a href="/withdraw?loaddr={{_id}}">Withdraw</a></label>
 </div>
