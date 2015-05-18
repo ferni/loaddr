@@ -60,7 +60,7 @@ module.exports = {
         });
     },
     createForm: function () {
-        return 'Phone number: +<input name="number" type="text" />';
+        return '{external}';
     },
     settingsForm: function(settings) {
         return 'Phone number: <strong>+' + settings.number+ '</strong>';

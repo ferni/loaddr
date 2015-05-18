@@ -9,7 +9,8 @@ module.exports = function(app) {
             loaddrPrototype,
             form,
             renderObject = {
-                title: loaddrType + ' loader'
+                title: loaddrType + ' loader',
+                type: loaddrType
             };
         try {
             loaddrPrototype = loaddrs.getPrototype(loaddrType);
