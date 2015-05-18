@@ -127,3 +127,8 @@
 li {
     list-style-type: none;
 }
+
+
+.close-button {
+    float: right;
+}

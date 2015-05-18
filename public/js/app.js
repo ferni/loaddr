@@ -34,7 +34,7 @@
     $('.last-log-container').click(function() {
         $(this).parent().find('.log').show();
     });
-    $('.close-log').click(function() {
+    $('.close-button').click(function() {
         $(this).parent().hide();
     });
     $('#new-button').click(function() {
