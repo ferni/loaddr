@@ -2,7 +2,7 @@ var isLoggedIn = require('./is-logged-in');
 var wallet = require('../wallet');
 var db = require('../db').db;
 var loaddrs = require('../loaddrs');
-
+var _ = require('lodash');
 module.exports = function(app) {
     app.get('/create-loaddr/:type', isLoggedIn, function(req, res, next) {
         var loaddrType = req.params.type,
@@ -54,13 +54,11 @@ module.exports = function(app) {
                     res.redirect('/');
                 })
             }).catch(function(e) {
-                console.error('Error:' + e.message);
                 newLoaddr.remove();
-                req.flash('createError', e);
-                res.redirect('/create-loaddr/' + loaddrType);
+                throw e;
             });
         }).catch(function(e) {
-            req.flash('createError', e);
+            req.flash('createError', _.isObject(e) ? JSON.stringify(e) : e);
             res.redirect('/create-loaddr/' + loaddrType);
         });
     });
