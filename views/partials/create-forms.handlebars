@@ -56,7 +56,7 @@
 
     </style>
     <ul id="sliders"></ul>
-    <button id="add-address" type="button">Add address</button>
+    <button id="add-address" type="button" class="btn btn-turquesa">Add address</button>
     <script src="/js/vendor/jquery-ui-1.9.2.custom.js"></script>
     <script src="/js/vendor/jquery-ui-1.9.2.custom.js"></script>
     <script>
@@ -64,8 +64,8 @@
         function getCurrentState() {
             return $('#sliders li').map(function() {
                 return {
-                    address: $('input[type=text]' ,this).val(),
-                    percentage: $('input[type=number]', this).val()
+                    address: $('.address' ,this).val(),
+                    percentage: $('.value', this).val()
                 };
             }).get();
         }
@@ -75,6 +75,7 @@
             sliders.each(function () {
                 var init_value = parseInt($(this).text());
                 $(this).siblings('.value').val(init_value);
+                $(this).siblings('.text-value').text(init_value);
                 $(this).empty().slider({
                     value: init_value,
                     min: 0,
@@ -85,6 +86,7 @@
                     slide: function (event, ui) {
                         // Update display to current value
                         $(this).siblings('.value').val(ui.value);
+                        $(this).siblings('.text-value').text(ui.value);
                         // Get current total
                         var total = 0;
                         sliders.not(this).each(function () {
@@ -104,6 +106,7 @@
                             if (new_value > 100)
                                 new_value = 100;
                             t.siblings('.value').val(Math.floor(new_value));
+                            t.siblings('.text-value').text(Math.floor(new_value));
                             t.slider('value', new_value);
                         });
                     }
@@ -120,9 +123,10 @@
 
         function getSliderHtml(i, address, percentage) {
             return '<li>' +
-                    '<label>Address ' + (i + 1) + '</label><input type="text" name="addresses[' + i + '][address]" value="' + address + '"/>' +
+                    '<label>Address ' + (i + 1) + '</label><input  class="address" type="text" name="addresses[' + i + '][address]" value="' + address + '"/>' +
                     '<div class="slider">' + percentage + '</div>' +
-                    '<input type="number" name="addresses[' + i + '][percentage]" class="value" value="' + percentage + '" readonly/>%' +
+                    '<input type="hidden" name="addresses[' + i + '][percentage]" class="value" value="' + percentage + '" readonly/>' +
+                            '<span class="text-value">' + percentage + '</span>%' +
                     '</li>';
         }
 
