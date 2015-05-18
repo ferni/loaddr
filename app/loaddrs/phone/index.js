@@ -6,7 +6,7 @@ var $b = require('../../util').displayBits;
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
-        console.log('looking up number');
+        loaddr.log('Looking up top up packages...');
         return bitrefill.lookupNumber(loaddr.settings.number).then(function(body) {
             var operator = body.operator;
             var maxAffordablePrice = _.chain(operator.packages)
