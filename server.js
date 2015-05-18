@@ -21,6 +21,7 @@ var session      = require('express-session');
 var configDB = require('./config/database.js');
 var autoIncrement = require('mongoose-auto-increment');
 var Promise = require('bluebird');
+var util = require('./app/util');
 // configuration ===============================================================
 Promise.promisifyAll(mongoose);
 Promise.promisifyAll(require('request'));
@@ -42,6 +43,9 @@ app.engine('handlebars', exphbs({
     helpers: {
         last: function(array) {
             return array[array.length - 1];
+        },
+        bits: function(satoshis) {
+            return util.displayBits(satoshis);
         }
     }
 }));

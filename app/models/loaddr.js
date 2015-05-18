@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
     Promise = require('bluebird'),
     db = require('../db').db,
     autoIncrement = require('mongoose-auto-increment'),
-    socket = require('../socket');
+    socket = require('../socket'),
+    $b = require('../util').displayBits;
 Promise.promisifyAll(coinbase);
 
 var loaddrSchema = mongoose.Schema({
@@ -29,7 +30,7 @@ loaddrSchema.methods.balanceChanged = function() {
     //update the user
     socket.sendTo(this._creator._id, 'update balance', {
         address: this.address,
-        balance: this.balance
+        balance: $b(this.balance)
     });
 };
 

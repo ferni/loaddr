@@ -1,7 +1,8 @@
 var wallet = require('./wallet'),
     loaddrModel = require('./models/loaddr'),
     _ = require('lodash'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    $b = require('./util').displayBits;
 
 function onAddressReceives(address, amount) {
     //get corresponding loaddr
@@ -14,7 +15,7 @@ function onAddressReceives(address, amount) {
             return;
         }
         var loaddr = docs[0];
-        loaddr.log('Received ' + amount);
+        loaddr.log('Received ' + $b(amount));
         loaddr.loadPrototype();
         console.log('Waiting 3 seconds');
         Promise.delay(3000).then(function() {

@@ -2,7 +2,7 @@ var wallet = require('../../wallet');
 var bitrefill = require('./bitrefill');
 var Promise = require('bluebird');
 var _ = require('lodash');
-
+var $b = require('../../util').displayBits;
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
@@ -28,7 +28,7 @@ module.exports = {
                 });
             }
             var minPackage = _.min(operator.packages, 'satoshiPrice');
-            loaddr.log('Saved ' + amount + '. Add ' + ((minPackage.satoshiPrice + wallet.fee) - loaddr.balance) +
+            loaddr.log('Saved ' + $b(amount) + '. Add ' + $b((minPackage.satoshiPrice + wallet.fee) - loaddr.balance) +
                 ' more to buy the ' + minPackage.value + ' ' + operator.currency + ' top up package.');
             return [null, null];
         }).spread(function(result, order) {
@@ -60,11 +60,10 @@ module.exports = {
         });
     },
     createForm: function () {
-        return 'Phone number: <input name="number" type="text" />';
+        return 'Phone number: +<input name="number" type="text" />';
     },
     settingsForm: function(settings) {
-        //TODO: Make the settings editable (ajax)
-        return 'Phone number: <strong>' + settings.number+ '</strong>';
+        return 'Phone number: <strong>+' + settings.number+ '</strong>';
     },
     poweredBy: {
         name: 'Bitrefill',
