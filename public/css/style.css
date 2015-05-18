@@ -47,7 +47,31 @@
 
 #new-panel {
     display: none;
+    background-color: #313650;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding: 4px 4px 4px 2px;
+    margin: 2px;
+    border: 1px solid grey;
+    color: white;
+    min-height: 100px;
+}
 
+#loaddr-types li {
+    padding: 3px;
+    margin: 1px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+#loaddr-types a {
+    color: #9ce1a3;
+}
+
+#loaddr-types li:hover {
+    background-color: #6e78b0;
 }
 
 .loaddr-name {
@@ -88,4 +112,8 @@
     padding: 2px;
     font-size: small;
     margin-left: 20px;
+}
+
+li {
+    list-style-type: none;
 }
