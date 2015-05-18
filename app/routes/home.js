@@ -17,7 +17,8 @@ function renderApp(req, res, next) {
             return res.render('app', {
                 loaddrs: loaddrs,
                 user: req.user,
-                connectionID: req.session.connectionID
+                connectionID: req.session.connectionID,
+                title: 'loaddr - Load anything with the tap of an address'
             });
         }).catch(function(e) {
             next(e);
@@ -30,7 +31,6 @@ module.exports = function(app) {
         if (req.isAuthenticated()) {
             return renderApp(req, res, next);
         }
-
-        res.render('index');
+        res.render('index', {title: 'loaddr - Load anything with the tap of an address'});
     });
 };

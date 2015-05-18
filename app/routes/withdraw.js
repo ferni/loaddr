@@ -18,7 +18,7 @@ module.exports = function(app) {
                loaddr.checked = req.query.loaddr == loaddr._id;
             })
             .then(function(loaddrs) {
-                res.render('withdraw', {loaddrs: loaddrs, user: req.user});
+                res.render('withdraw', {loaddrs: loaddrs, user: req.user, title: 'Withdraw'});
             });
     });
 
