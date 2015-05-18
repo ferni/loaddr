@@ -6,6 +6,7 @@ var coinbase = require('coinbase');
 var _ = require('lodash');
 Promise.promisifyAll(coinbase);
 var bitcore = require('bitcore');
+var $b = require('../../util').displayBits;
 //--- coinbase errors ---
 // 'ExpiredAccessToken':
 // use the client.refresh API to get a new access_token
@@ -83,14 +84,14 @@ WrappedClient.prototype.sell = function(account, satoshis, retryOptions) {
     if (retryOptions) {
         retryOptions.retry--;
     }
-    self.loaddr.log('Selling ' + sellInBTC + ' BTC...');
+    self.loaddr.log('Selling ' + $b(satoshis) + ' ...');
     return account.sellAsync({
         "qty": sellInBTC
     }).catch(function(e) {
         //User is unable to sell (level 0)
-        console.log('Unable to sell:' + e.cause.response.body);
+        self.loaddr.log('Unable to sell:' + e.cause.response.body);
         if (retryOptions && retryOptions.retry > -1) {
-            console.log('Retrying in ' + sellRetryMS + ' ms.');
+            self.loaddr.log('Retrying in ' + sellRetryMS + ' ms.');
             return Promise.delay(sellRetryMS).then(function() {
                 return self.sell(account, satoshis, retryOptions);
             });

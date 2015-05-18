@@ -3,7 +3,7 @@ var request = require('request');
 var coinbaseWrapper = require('./coinbase');
 var wallet = require('../../wallet');
 var _ = require('lodash');
-
+var $b = require('../../util');
 module.exports = {
     onIncoming: function (amount, loaddr) {
         var available = amount - wallet.fee;
@@ -16,7 +16,7 @@ module.exports = {
                     address: address
                 }]
             }).then(function() {
-                loaddr.log('Sent bits to Coinbase.');
+                loaddr.log('Sent ' + $b(available) + ' to Coinbase.');
                 return account;
             });
         }).then(function(account) {
