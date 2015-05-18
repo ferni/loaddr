@@ -1,163 +1,18 @@
-<!-- BANK LOADER (Coinbase) CREATE FORM -->
 {{#if bank}}
-    <div class="spin">
-        <a class="btn btn-turquesa" id="connect" href="https://www.coinbase.com/oauth/authorize?response_type=code&client_id=8d9572a5813ba28235f006dbe0b81adfdbd9b6d2941b09d32bdda65313618c8b&redirect_uri=https://loaddr.herokuapp.com/create-loaddr/bank&scope=user+addresses+sell" style="display:none">
-            Link Coinbase account
-        </a>
-        <span class="btn btn-turquesa disabled" id="connected" style="display:none">Coinbase account linked <span class="glyphicon glyphicon-ok"></span></span>
-        <input id="code-input" type="hidden" name="code" />
-    </div>
-    <script type="text/javascript">
-    $(function() {
-        var submitEnabled = false,
-            $submitButton = $('button[type=submit]');
-        $submitButton.addClass('disabled');
-        $('form').on('submit',function(e) {
-            if (!submitEnabled) {
-                e.preventDefault();
-            }
-        });
-
-        function getParameterByName(name) {
-            'use strict';
-            var match = new RegExp('[?&]' + name + '=([^&]*)')
-                    .exec(window.location.search);
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        }
-        var code = getParameterByName('code');
-        if (code) {
-            $('#code-input').val(code);
-            $('#connected').show();
-            submitEnabled = true;
-            $submitButton.removeClass('disabled');
-        } else {
-            $('#connect').show();
-        }
-    });
-    </script>
+    {{> create-forms/bank}}
 {{/if}}
 
-<!-- SPLIT LOADER CREATE FORM -->
 {{#if split}}
-    <link rel="stylesheet" href="/css/jquery-ui-1.9.2.custom.css" />
-    <style type="text/css">
-        #sliders {
-            width: 300px;
-            padding: 20px;
-        }
-
-        #sliders li {
-            margin-bottom: 10px;
-        }
-
-        #sliders div {
-            margin-bottom: 5px;
-        }
-
-    </style>
-    <ul id="sliders"></ul>
-    <button id="add-address" type="button" class="btn btn-turquesa">Add address</button>
-    <script src="/js/vendor/jquery-ui-1.9.2.custom.js"></script>
-    <script src="/js/vendor/jquery-ui-1.9.2.custom.js"></script>
-    <script>
-    $(function() {
-        function getCurrentState() {
-            return $('#sliders li').map(function() {
-                return {
-                    address: $('.address' ,this).val(),
-                    percentage: $('.value', this).val()
-                };
-            }).get();
-        }
-        function initSliders() {
-            var sliders = $("#sliders .slider");
-            var availableTotal = 100;
-            sliders.each(function () {
-                var init_value = parseInt($(this).text());
-                $(this).siblings('.value').val(init_value);
-                $(this).siblings('.text-value').text(init_value);
-                $(this).empty().slider({
-                    value: init_value,
-                    min: 0,
-                    max: availableTotal,
-                    range: "max",
-                    step: 1,
-                    animate: 0,
-                    slide: function (event, ui) {
-                        // Update display to current value
-                        $(this).siblings('.value').val(ui.value);
-                        $(this).siblings('.text-value').text(ui.value);
-                        // Get current total
-                        var total = 0;
-                        sliders.not(this).each(function () {
-                            total += $(this).slider("option", "value");
-                        });
-                        // Need to do this because apparently jQ UI
-                        // does not update value until this event completes
-                        total += ui.value;
-                        var delta = availableTotal - total;
-                        // Update each slider
-                        sliders.not(this).each(function () {
-                            var t = $(this),
-                                    value = t.slider("option", "value");
-                            var new_value = value + (delta / 4);
-                            if (new_value < 0 || ui.value == 100)
-                                new_value = 0;
-                            if (new_value > 100)
-                                new_value = 100;
-                            t.siblings('.value').val(Math.floor(new_value));
-                            t.siblings('.text-value').text(Math.floor(new_value));
-                            t.slider('value', new_value);
-                        });
-                    }
-                });
-            });
-        }
-
-        $('#add-address').click(function(e) {
-            e.preventDefault();
-            var state = getCurrentState();
-            state.push({address: '', percentage: 0});
-            render(state);
-        });
-
-        function getSliderHtml(i, address, percentage) {
-            return '<li>' +
-                    '<label>Address ' + (i + 1) + '</label><input  class="address" type="text" name="addresses[' + i + '][address]" value="' + address + '"/>' +
-                    '<div class="slider">' + percentage + '</div>' +
-                    '<input type="hidden" name="addresses[' + i + '][percentage]" class="value" value="' + percentage + '" readonly/>' +
-                            '<span class="text-value">' + percentage + '</span>%' +
-                    '</li>';
-        }
-
-        function render(state) {
-            var html = '';
-            $.each(state, function( index, value ) {
-                html += getSliderHtml(index, value.address, value.percentage);
-            });
-            $('#sliders').html(html);
-            initSliders();
-        }
-
-        render([
-            {address: '', percentage: 50}, {address: '', percentage: 50}
-        ]);
-    });
-    </script>
+    {{> create-forms/split}}
 {{/if}}
 
 {{#if phone}}
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="textinput">Phone Number</label>
-        <div class="col-md-5">
-            <input id="textinput" name="number" type="text" class="form-control input-md" required="">
-                <label style="position: absolute; top: 7px; left: 18px;">+</label>
-            </input>
-        </div>
-    </div>
+    {{> create-forms/phone}}
 {{/if}}
 
-
+{{#if altcoin}}
+    {{> create-forms/altcoin}}
+{{/if}}
 
 
 
