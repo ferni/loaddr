@@ -1,10 +1,10 @@
 <!-- BANK LOADER (Coinbase) CREATE FORM -->
 {{#if bank}}
     <div class="spin">
-        <a id="connect" href="https://www.coinbase.com/oauth/authorize?response_type=code&client_id=8d9572a5813ba28235f006dbe0b81adfdbd9b6d2941b09d32bdda65313618c8b&redirect_uri=https://loaddr.herokuapp.com/create-loaddr/bank&scope=user+addresses+sell" style="display:none">
+        <a class="btn btn-turquesa" id="connect" href="https://www.coinbase.com/oauth/authorize?response_type=code&client_id=8d9572a5813ba28235f006dbe0b81adfdbd9b6d2941b09d32bdda65313618c8b&redirect_uri=https://loaddr.herokuapp.com/create-loaddr/bank&scope=user+addresses+sell" style="display:none">
             Link Coinbase account
         </a>
-        <span id="connected" style="display:none">Coinbase account linked</span>
+        <span class="btn btn-turquesa disabled" id="connected" style="display:none">Coinbase account linked <span class="glyphicon glyphicon-ok"></span></span>
         <input id="code-input" type="hidden" name="code" />
     </div>
     <script type="text/javascript">
