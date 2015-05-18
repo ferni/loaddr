@@ -105,10 +105,9 @@
 }
 
 .address {
-    position: absolute;
     font-size: large;
-    top: 50px;
-    left: 50px;
+    margin-top: 30px;
+    margin-left: 40px;
 }
 
 .round-highlight {
