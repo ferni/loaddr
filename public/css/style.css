@@ -1,3 +1,10 @@
+.main {
+    background-color: aliceblue;
+}
+
+#save-these-addresses {
+    text-align: center;
+}
 .qrcode {
     padding: 5px;
     background-color: white;
