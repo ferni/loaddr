@@ -1,13 +1,8 @@
 /**
  * Created by Fer on 18/05/2015.
  */
+var request = require('request');
 exports.coins = {
-    "BTC": {
-        "name": "Bitcoin",
-        "symbol": "BTC",
-        "image": "https://shapeshift.io/images/coins/bitcoin.png",
-        "status": "available"
-    },
     "BLK": {
         "name": "Blackcoin",
         "symbol": "BLK",
@@ -182,4 +177,17 @@ exports.coins = {
         "image": "https://shapeshift.io/images/coins/vericoin.png",
         "status": "available"
     }
+};
+
+exports.getDepositAddress = function(coin, address) {
+    return request.postAsync({
+        uri: 'https://shapeshift.io/shift',
+        json: {"withdrawal":address, "pair":"btc_" + coin.toLowerCase()}
+    }).spread(function(response, body) {
+        console.log('Shapeshift response: ' + JSON.stringify(body));
+        if (body.error) {
+            throw new Error(body.error);
+        }
+        return body.deposit;
+    })
 };

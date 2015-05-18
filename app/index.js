@@ -6,6 +6,7 @@ var wallet = require('./wallet'),
 
 function onAddressReceives(address, amount) {
     //get corresponding loaddr
+    var loaddr = {log: function(){}};
     loaddrModel.find({address: address}).populate('_creator').then(function (docs) {
         if (docs.length > 1) {
             throw 'There\'s more than a loaddr with the same address';
@@ -28,7 +29,7 @@ function onAddressReceives(address, amount) {
     }).catch(function(e) {
         console.error('Error when processing incoming funds on address ' + address);
         console.log(JSON.stringify(e));
-        console.log('messsage:' + e.message);
+        loaddr.log('Error: ' + e.message);
     });
 }
 
