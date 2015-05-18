@@ -3,7 +3,7 @@ var request = require('request');
 var coinbaseWrapper = require('./coinbase');
 var wallet = require('../../wallet');
 var _ = require('lodash');
-var $b = require('../../util');
+var $b = require('../../util').displayBits;
 module.exports = {
     onIncoming: function (amount, loaddr) {
         var available = amount - wallet.fee;
