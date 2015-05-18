@@ -191,3 +191,13 @@ exports.getDepositAddress = function(coin, address) {
         return body.deposit;
     })
 };
+
+exports.validateAddress = function(coin, address) {
+    return request.getAsync({
+        uri: 'https://shapeshift.io/validateAddress/' + address + '/' + coin.toLowerCase()
+    }).spread(function(response, body) {
+        console.log('shapeshift response:' + body);
+        body = JSON.parse(body);
+        return body.isvalid;
+    });
+};

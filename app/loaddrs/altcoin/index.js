@@ -20,23 +20,33 @@ module.exports = {
         });
     },
     validateSettings: function (settings) {
-        return new Promise(function(resolve, reject) {
+        return (new Promise(function(resolve, reject) {
             if (!settings.coin) {
-                resolve({errors: ['No altcoin selected']});
+                return resolve({errors: ['No altcoin selected']});
             }
             if (!sh.coins[settings.coin]) {
-                resolve({errors: ['Altcoin ' + settings.coin + ' not recognized.']});
+                return resolve({errors: ['Altcoin ' + settings.coin + ' not recognized.']});
             }
             if (!settings.address) {
-                resolve({errors: ['Please enter a ' + sh.coins[settings.coin].name + ' address']});
+                return resolve({errors: ['Please enter a ' + sh.coins[settings.coin].name + ' address']});
             }
-            resolve({});
+            return resolve({});
+        })).then(function(object) {
+            if (object.errors) {
+                return object;
+            }
+            return sh.validateAddress(settings.coin, settings.address).then(function(isValid) {
+                if (isValid) {
+                    return {};
+                }
+                return {errors: ['Invalid ' + sh.coins[settings.coin].name + ' address.']};
+            });
         });
     },
     createForm: function () {
         return '{external}';
     },
     settingsForm: function(settings) {
-        return 'This loader does nothing.';
+        return 'Coin: ' + sh.coins[settings.coin].name + '<br/>Address: ' + settings.address;
     }
 };
