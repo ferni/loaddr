@@ -57,6 +57,10 @@
 
 .description {
     display: none;
+    background-color: white;
+    border: 1px solid dimgray;
+    z-index: 9;
+    position: absolute;
 }
 
 .address {
