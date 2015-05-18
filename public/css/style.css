@@ -69,6 +69,10 @@
     padding-left: 3px;
 }
 
+#new-button {
+    margin-left: 17px;
+    margin-top: 5px;
+}
 #new-panel {
     display: none;
     background-color: #313650;
