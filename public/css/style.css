@@ -50,6 +50,8 @@
     width: 400px;
     border: 1px solid black;
     z-index: 10;
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 .last-log-container {
