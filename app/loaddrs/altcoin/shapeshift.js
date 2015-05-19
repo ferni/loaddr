@@ -201,3 +201,22 @@ exports.validateAddress = function(coin, address) {
         return body.isvalid;
     });
 };
+
+exports.getStatus = function(address) {
+    return request.getAsync({
+        uri: 'https://shapeshift.io/txStat/' + address
+    }).spread(function (response, body) {
+        return JSON.parse(body);
+    });
+};
+
+exports.waitForStatusChange = function(previous) {
+    return exports.getStatus(previous.address).then(function(current) {
+        if (current.status === previous.status) {
+            return Promise.delay(5000).then(function() {
+                return exports.waitForStatusChange(current)
+            });
+        }
+        return current;
+    })
+};
