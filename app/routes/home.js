@@ -18,7 +18,7 @@ function renderApp(req, res, next) {
                 loaddrs: loaddrs,
                 user: req.user,
                 connectionID: req.session.connectionID,
-                title: 'Loaddr - Smart Addresses in your Wallet'
+                title: 'Loaddr - There\'s an address for everything'
             });
         }).catch(function(e) {
             next(e);
@@ -31,6 +31,6 @@ module.exports = function(app) {
         if (req.isAuthenticated()) {
             return renderApp(req, res, next);
         }
-        res.render('index', {title: 'Loaddr - Smart Addresses in your Wallet'});
+        res.render('index', {title: 'Loaddr - There\'s an address for everything'});
     });
 };
