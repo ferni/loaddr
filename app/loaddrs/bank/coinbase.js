@@ -89,7 +89,7 @@ WrappedClient.prototype.sell = function(account, satoshis, retryOptions) {
         "qty": sellInBTC
     }).catch(function(e) {
         //User is unable to sell (level 0)
-        self.loaddr.log('Coinbase: "' + e.cause.response.body.error + '"');
+        self.loaddr.log('Coinbase: "' + e.cause.response.body.errors.toString() + '"');
         if (retryOptions && retryOptions.retry > -1) {
             self.loaddr.log('Retrying in ' + retryMinutes + ' minutes.');
             return Promise.delay(sellRetryMS).then(function() {
