@@ -83,7 +83,7 @@ var api = {
         }).catch(alreadyTrackedError, function() {
             console.log('WARNING: Address ' + address + ' was already being tracked.');
         }).catch(function(e) {
-            console.log('Error trying to track new address:' + JSON.stringify(e.cause.resp));
+            console.log('Chain: Error trying to track address ' + address);
         });
     },
     chain: chain
