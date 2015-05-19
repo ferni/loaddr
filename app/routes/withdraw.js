@@ -40,7 +40,7 @@ module.exports = function(app) {
                 return wallet.withdraw(loaddrs, req.body.address);
             })
             .then(function() {
-               return res.render('withdraw', {message: 'Withdraw successful', user: req.user});
+               return res.render('withdraw', {message: 'Withdrawal successful', user: req.user});
             });
     });
 };
