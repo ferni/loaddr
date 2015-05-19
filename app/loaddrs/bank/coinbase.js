@@ -13,8 +13,8 @@ var $b = require('../../util').displayBits;
 //'InvalidAccessToken':
 //'AuthenticationError'
 
-
-var sellRetryMS = 36500;
+var retryMinutes = 10;
+var sellRetryMS = retryMinutes * 60 * 1000;
 //var sellRetryMS = 3000;
 
 var ExpiredAccessToken = function(e) {
@@ -89,9 +89,9 @@ WrappedClient.prototype.sell = function(account, satoshis, retryOptions) {
         "qty": sellInBTC
     }).catch(function(e) {
         //User is unable to sell (level 0)
-        self.loaddr.log('Unable to sell:' + e.cause.response.body);
+        self.loaddr.log('Coinbase: "' + e.cause.response.body.error + '"');
         if (retryOptions && retryOptions.retry > -1) {
-            self.loaddr.log('Retrying in ' + sellRetryMS + ' ms.');
+            self.loaddr.log('Retrying in ' + retryMinutes + ' minutes.');
             return Promise.delay(sellRetryMS).then(function() {
                 return self.sell(account, satoshis, retryOptions);
             });
