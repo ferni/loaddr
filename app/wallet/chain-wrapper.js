@@ -34,7 +34,7 @@ Promise.promisifyAll(Object.getPrototypeOf(chain));
 function handleNotification(onReceivedHandler) {
     return function(req, res) {
         var payload = req.body.payload;
-        console.log('New Chain notification: ' + JSON.stringify(req.body));
+        //console.log('New Chain notification: ' + JSON.stringify(req.body));
         //todo: check that the message is from chain
         if (payload.type === 'address' && payload.received > 0 && payload.confirmations == 0) {
             //id= payload.transaction_hash,
