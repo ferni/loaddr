@@ -25,13 +25,13 @@ module.exports = function(app) {
     app.post('/withdraw', isLoggedIn, function(req, res, next) {
         var ids = req.body.loaddrs;
         if (!ids) {
-            return next(new Error('Please select at least one loader to withdraw from.'));
+            return res.render('withdraw', {error: 'Please select at least one loader to withdraw from.', user: req.user});
         }
         console.log('address:' + req.body.address);
         try {
             bitcore.Address.fromString(req.body.address);
         } catch(e) {
-            return next(new Error('Invalid bitcoin address.'));
+            return res.render('withdraw', {error: 'Invalid bitcoin address.', user: req.user});
         }
         db.model('Loaddr')
             .findAsync({_creator: req.user._id, _id: { "$in" : ids}})

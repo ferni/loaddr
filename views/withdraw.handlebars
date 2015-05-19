@@ -10,6 +10,12 @@
 <form method="post" class="form-horizontal">
     <fieldset>
     <legend>Withdraw</legend>
+        {{#if message}}
+        <div class="alert alert-success">{{message}}</div>
+        {{/if}}
+        {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
     <label for="address">Address:</label><input id="address" name="address" type="text" />
     <table>
     {{#each loaddrs}}
