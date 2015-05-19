@@ -1,19 +1,27 @@
-<div>{{message}}</div>
-
-<form method="post">
+<style>
+    td {
+        padding: 3px;
+    }
+    #address {
+        width: 300px;
+    }
+</style>
+<div class="col-sm-6 col-sm-offset-3">
+<form method="post" class="form-horizontal">
+    <fieldset>
+    <legend>Withdraw</legend>
     <label for="address">Address:</label><input id="address" name="address" type="text" />
-<table>
-{{#each loaddrs}}
-    <tr>
-        <td>{{type}} loader</td>
-        <td><strong>{{address}}</strong></td>
-        <td>{{balance}}</td>
-        <td><input type="checkbox" name="loaddrs[{{@index}}]" value="{{_id}}" {{#if checked}}checked{{/if}} /></td>
-    </tr>
-{{/each}}
-</table>
-    <button type="submit">Withdraw</button>
+    <table>
+    {{#each loaddrs}}
+        <tr>
+            <td>{{type}} loader: </td>
+            <td><strong>{{address}}</strong></td>
+            <td>{{bits balance}}</td>
+            <td><input type="checkbox" name="loaddrs[{{@index}}]" value="{{_id}}" {{#if checked}}checked{{/if}} /></td>
+        </tr>
+    {{/each}}
+    </table>
+    <button type="submit" class="btn btn-success">Withdraw</button>
+    </fieldset>
 </form>
-<script type="text/javascript">
-
-</script>
+</div>
