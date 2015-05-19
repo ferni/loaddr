@@ -9,7 +9,7 @@ function handleStatus(loaddr) {
                 return sh.waitForStatusChange(status).then(handleStatus(loaddr));
             }
             case 'complete': {
-                loaddr.log('Exchange completed succesfully. Tx id: ' + status.transaction);
+                loaddr.log('Exchange completed succesfully. ' + status.outgoingType + ' tx id: ' + status.transaction);
                 return;
             }
             case 'failed': {
