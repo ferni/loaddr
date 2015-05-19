@@ -1,6 +1,9 @@
 <style>
     .receivebycoin {
         width: 400px;
+        position: absolute;
+        top: 116px;
+        left: 15px;
     }
     .receivebycoin img {
         height: 30px;
@@ -8,6 +11,12 @@
     .receivebycoin li {
         width: 180px;
         float: left;
+    }
+    #choose-button {
+        height: 64px;
+    }
+    #choose-button img {
+        width: 50px;
     }
 </style>
 <button id="choose-button" type="button" class="dropdown btn btn-turquesa">Choose a coin <span class="glyphicon glyphicon-chevron-down"></span></button>
@@ -81,7 +90,9 @@
     });
 
     $('.receivebycoin').find('li').click(function() {
-       $('input[name=coin]').val($(this).attr('id'));
+        $('input[name=coin]').val($(this).attr('id'));
         $('.receivebycoin').hide();
+        var coinImg = $('a', this).clone();
+        $('#choose-button').html(coinImg);
     });
 </script>
