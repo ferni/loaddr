@@ -18,7 +18,7 @@ function renderApp(req, res, next) {
                 loaddrs: loaddrs,
                 user: req.user,
                 connectionID: req.session.connectionID,
-                title: 'loaddr - Load anything with the tap of an address'
+                title: 'Loaddr - Empower your wallet'
             });
         }).catch(function(e) {
             next(e);
@@ -31,6 +31,6 @@ module.exports = function(app) {
         if (req.isAuthenticated()) {
             return renderApp(req, res, next);
         }
-        res.render('index', {title: 'loaddr - Load anything with the tap of an address'});
+        res.render('index', {title: 'Loaddr - Empower your wallet'});
     });
 };
