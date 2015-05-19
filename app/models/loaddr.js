@@ -18,7 +18,7 @@ var loaddrSchema = mongoose.Schema({
 
 loaddrSchema.methods.log = function(msg) {
     console.log((this._creator.local ? this._creator.local.email : this._creator) + '\'s ' +
-        this.type + ' loaddr (' + this.address + ') log: ' + msg);
+        this.type + ' loaddr (' + this.address + '): ' + msg);
     socket.sendTo(this._creator._id, 'log', {
         address: this.address,
         message: msg
