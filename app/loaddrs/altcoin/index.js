@@ -1,28 +1,30 @@
+function handleStatus(loaddr) {
+    return function (status) {
+        switch (status.status) {
+            case 'no_deposits' : {
+                return sh.waitForStatusChange(status).then(handleStatus(loaddr));
+            }
+            case 'received': {
+                loaddr.log('Payment acknowledged, awaiting exchange...');
+                return sh.waitForStatusChange(status).then(handleStatus(loaddr));
+            }
+            case 'complete': {
+                loaddr.log('Exchange completed succesfully. Tx id: ' + status.transaction);
+                return;
+            }
+            case 'failed': {
+                loaddr.log('Exchange failed: ' + status.error);
+                return;
+            }
+            default: throw new Error('Unknown shapeshift status: ' + JSON.stringify(status));
+        }
+    };
+}
+
 var Promise = require('bluebird'),
     sh = require('./shapeshift'),
     wallet = require('../../wallet'),
     $b = require('../../util').displayBits;
-
-function handleStatus(status) {
-    switch (status.status) {
-        case 'no_deposits' : {
-            return sh.waitForStatusChange(status).then(handleStatus);
-        }
-        case 'received': {
-            loaddr.log('Payment acknowledged, awaiting exchange...');
-            return sh.waitForStatusChange(status).then(handleStatus);
-        }
-        case 'complete': {
-            loaddr.log('Exchange completed succesfully. Tx id: ' + status.transaction);
-            return;
-        }
-        case 'failed': {
-            loaddr.log('Exchange failed: ' + status.error);
-            return;
-        }
-        default: throw new Error('Unknown shapeshift status: ' + JSON.stringify(status));
-    }
-}
 
 module.exports = {
     onIncoming: function (amount, loaddr) {
@@ -40,7 +42,7 @@ module.exports = {
         }).then(function(address) {
             loaddr.log($b(amount - wallet.fee) + ' sent to ShapeShift.');
             return sh.getStatus(address);
-        }).then(handleStatus);
+        }).then(handleStatus(loaddr));
     },
     validateSettings: function (settings) {
         return (new Promise(function(resolve, reject) {
