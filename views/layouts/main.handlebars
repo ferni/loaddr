@@ -58,8 +58,10 @@
         </div>
         <div class="col-md-6">
           {{#if user}}
-            <strong>{{user.local.email}}</strong>
             <a class="btn btn-violet pull-right" href="/logout">Logout</a>
+          <div style="margin: 10px" class="pull-right">
+              <strong>{{user.local.email}}</strong>
+          </div>
           {{else}}
             <a class="btn btn-turquesa pull-right" href="/signup">Sign Up</a>
             <a class="btn btn-violet pull-right" href="/login">Login</a>
