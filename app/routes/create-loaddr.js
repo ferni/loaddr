@@ -12,6 +12,7 @@ module.exports = function(app) {
                 title: loaddrType + ' loader',
                 type: loaddrType
             };
+        console.log('User ' + req.user.local.email + ' is creating a ' + loaddrType + ' loaddr.');
         try {
             loaddrPrototype = loaddrs.getPrototype(loaddrType);
         } catch(e) {
@@ -32,7 +33,7 @@ module.exports = function(app) {
     app.post('/create-loaddr/:type', isLoggedIn, function(req, res, next) {
         var loaddrType = req.params.type;
         var settings = req.body;
-        console.log('settings:' + JSON.stringify(settings));
+        console.log('Settings submitted:' + JSON.stringify(settings));
         var proto = loaddrs.getPrototype(loaddrType);
         var Loaddr = db.model('Loaddr');
         var loaddr = new Loaddr({
@@ -58,6 +59,7 @@ module.exports = function(app) {
                 throw e;
             });
         }).catch(function(e) {
+            console.log('Create error: ' + _.isObject(e) ? JSON.stringify(e) : e);
             req.flash('createError', _.isObject(e) ? JSON.stringify(e) : e);
             res.redirect('/create-loaddr/' + loaddrType);
         });

@@ -33,6 +33,7 @@ module.exports = function (passport) {
 
                         newUser.save(function (err) {
                             if (err) return done(err);
+                            console.log('NEW USER: ' + email);
                             return done(null, newUser);
                         });
                     }
@@ -53,6 +54,7 @@ module.exports = function (passport) {
                     return done(null, false, req.flash('loginMessage', 'No user found.'));
                 if (!user.validPassword(password))
                     return done(null, false, req.flash('loginMessage', 'Wrong password.'));
+                console.log('User ' + email + ' has logged in.');
                 return done(null, user);
             });
 
