@@ -2,6 +2,7 @@
  * Created by Fer on 18/05/2015.
  */
 var request = require('request');
+var Promise = require('bluebird');
 exports.coins = {
     "BLK": {
         "name": "Blackcoin",
