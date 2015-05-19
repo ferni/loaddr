@@ -19,7 +19,7 @@ module.exports = {
             if (maxAffordablePrice !== -Infinity) {
                 var pack = _.find(operator.packages, {satoshiPrice: maxAffordablePrice});
                 loaddr.log('Buying ' + pack.value + ' ' + operator.currency +
-                    ' worth of credit for ' + pack.satoshiPrice + ' satoshi.');
+                    ' worth of credit for ' + $b(pack.satoshiPrice) + ' ...');
                 return bitrefill.placeOrder({
                     "operatorSlug": operator.slug,
                     "valuePackage" : pack.value,
@@ -41,6 +41,9 @@ module.exports = {
                     address: order.payment.address,
                     amount: order.satoshiPrice
                 }]
+            }).then(function() {
+                //todo: check order status to see if it was actually successful
+                loaddr.log('Top up package successfully bought. You\'ll receive an SMS confirmation shortly.');
             });
         });
     },
