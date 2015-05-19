@@ -18,7 +18,7 @@ function renderApp(req, res, next) {
                 loaddrs: loaddrs,
                 user: req.user,
                 connectionID: req.session.connectionID,
-                title: 'Loaddr - Empower your wallet'
+                title: 'Loaddr - Smart Addresses in your Wallet'
             });
         }).catch(function(e) {
             next(e);
@@ -31,6 +31,6 @@ module.exports = function(app) {
         if (req.isAuthenticated()) {
             return renderApp(req, res, next);
         }
-        res.render('index', {title: 'Loaddr - Empower your wallet'});
+        res.render('index', {title: 'Loaddr - Smart Addresses in your Wallet'});
     });
 };
