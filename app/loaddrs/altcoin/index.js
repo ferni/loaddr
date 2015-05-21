@@ -72,6 +72,6 @@ module.exports = {
         return '{external}';
     },
     settingsForm: function(settings) {
-        return 'Coin: ' + sh.coins[settings.coin].name + '<br/>Address: ' + settings.address;
+        return 'Coin: ' + (sh.coins[settings.coin] ? sh.coins[settings.coin].name : '(?) ')+ '<br/>Address: ' + settings.address;
     }
 };
