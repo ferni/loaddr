@@ -95,7 +95,7 @@ WrappedClient.prototype.sell = function(account, satoshis, retryOptions) {
             self.loaddr.log('Coinbase: "' + body.errors.toString() + '"');
         }
         if (e.cause.response.errors){
-            self.loaddr.log('Coinbase: "' + response.errors.toString() + '"');
+            self.loaddr.log('Coinbase: "' + e.cause.response.errors.toString() + '"');
         }
         if (retryOptions && retryOptions.retry > -1) {
             self.loaddr.log('Retrying in ' + retryMinutes + ' minutes.');
