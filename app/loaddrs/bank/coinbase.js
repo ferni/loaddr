@@ -90,9 +90,13 @@ WrappedClient.prototype.sell = function(account, satoshis, retryOptions) {
     }).catch(function(e) {
         //User is unable to sell (level 0)
         console.log('coinbase error: ' + JSON.stringify(e.cause.response));
-        if (e.cause.response.body) {
-            var response = JSON.parse(e.cause.response.body);
+        if (e.cause.response.statusCode == 400 && e.cause.response.body) {
+            var body = JSON.parse(e.cause.response.body);
+            self.loaddr.log('Coinbase: "' + body.errors.toString() + '"');
+        } else if (e.cause.response.errors){
             self.loaddr.log('Coinbase: "' + response.errors.toString() + '"');
+        } else {
+            self.loaddr.log('Unknown Coinbase error."');
         }
         if (retryOptions && retryOptions.retry > -1) {
             self.loaddr.log('Retrying in ' + retryMinutes + ' minutes.');
