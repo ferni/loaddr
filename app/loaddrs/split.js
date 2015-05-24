@@ -25,7 +25,7 @@ module.exports = {
             loaddr: loaddr,
             outputs: outputs
         }).then(function (tx) {
-            loaddr.log(amount + ' split among ' + outputs.length + ' addresses (' + util.txLink(tx) + ')');
+            loaddr.log(util.displayBits(amount) + ' split among ' + outputs.length + ' addresses (' + util.txLink(tx) + ')');
         });
     },
     validateSettings: function (settings) {
