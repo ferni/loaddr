@@ -8,7 +8,10 @@
         {{#if message}}
             <div class="alert alert-danger">{{message}}</div>
         {{/if}}
-
+        <div class="alert alert-warning" role="alert" style="text-align:center;">
+            <strong>Disclaimer</strong> This site is not production ready. Use it at your own risk.
+            <a href="/subscribe.html" class="btn btn-success">Let me know when it's ready</a>
+        </div>
         <!-- LOGIN FORM -->
         <form action="/signup" method="post">
             <div class="form-group">
@@ -19,7 +22,6 @@
                 <label>Password</label>
                 <input type="password" class="form-control" name="password">
             </div>
-
             <button type="submit" class="btn btn-warning btn-lg">Signup</button>
         </form>
 
