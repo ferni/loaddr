@@ -27,9 +27,11 @@ module.exports = {
         var fee = this.fee;
         var amount = _.sum(p.outputs, 'amount');
         console.log('Sending ' + amount);
+        /*
         if (amount + fee > p.loaddr.balance) {
             throw new NotEnoughError(p.loaddr, amount, fee);
         }
+        */
         var privateKey = hd.getPrivateKey(p.loaddr._id);
         var transactionSettings = {
             inputs: [{
