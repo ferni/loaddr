@@ -43,7 +43,7 @@ app.engine('handlebars', exphbs({
     helpers: {
         last: function(array) {
             if (array.length === 0) {
-                return 'Waiting for bits...';
+                return 'Waiting for bits (> 200) ...';
             }
             return array[array.length - 1];
         },
