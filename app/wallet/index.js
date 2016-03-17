@@ -55,6 +55,11 @@ module.exports = {
         });
     },
     loadBalances: function(loaddrs) {
+        return new Promise.try(function() {
+            return loaddrs;
+        });
+
+
         var addresses = _.pluck(loaddrs, 'address');
         var loaddrsByAddress = _.groupBy(loaddrs, 'address');
         return chainWrapper.chain.getAddressesAsync(addresses).each(function(detail) {
