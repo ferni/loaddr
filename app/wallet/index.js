@@ -1,6 +1,7 @@
 var _ = require('lodash'),
     hd = require('./hd'),
-    chainWrapper = require('./chain-wrapper');
+    chainWrapper = require('./chain-wrapper'),
+    Promise = require('bluebird');
 
 function NotEnoughError(loaddr, amount, fee) {
     this.message = 'Balance ' + loaddr.balance +' in ' + loaddr.address +
